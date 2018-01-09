@@ -1,0 +1,17 @@
+# Intellij
+.idea/
+*.iml
+*.iws
+ 
+# Mac
+.DS_Store
+ 
+# Maven
+log/
+target/
+src/main/resources/
+
+
+# Data file
+vm.txt
+time.txt
