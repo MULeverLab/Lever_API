@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -12,32 +13,22 @@ public class Animal {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-
     private Genotype genotype;
-
-    private Set<Phenotype> phenotypeSet;
-
+    private Map<Phenotype, Long> phenotypeSet;
     private String description;
-
-    private int sex;
-
-    private long dateOfBirth;
-
-    private long dateOfDeath;
-
-    private int causeOfDeath;
-
+    private Integer sex;
+    private Long dateOfBirth;
+    private Long dateOfDeath;
+    private Integer causeOfDeath;
     private Colony colony;
-
     private int species;
-
-    private Integer childId;
+    private Integer speciesId;
 
     protected Animal() {
 
     }
 
-    public Animal(Genotype genotype, Set<Phenotype> phenotypeSet, String description, int sex, long dateOfBirth, long dateOfDeath, int causeOfDeath, Colony colony, int species, Integer childId) {
+    public Animal(Genotype genotype, Map<Phenotype, Long> phenotypeSet, String description, int sex, long dateOfBirth, long dateOfDeath, int causeOfDeath, Colony colony, int species, Integer childId) {
         this.genotype = genotype;
         this.phenotypeSet = phenotypeSet;
         this.description = description;
@@ -47,14 +38,14 @@ public class Animal {
         this.causeOfDeath = causeOfDeath;
         this.colony = colony;
         this.species = species;
-        this.childId = childId;
+        this.speciesId = childId;
     }
 
-    public Set<Phenotype> getPhenotypeSet() {
+    public Map<Phenotype, Long> getPhenotypeSet() {
         return phenotypeSet;
     }
 
-    public void setPhenotypeSet(Set<Phenotype> phenotypeSet) {
+    public void setPhenotypeSet(Map<Phenotype, Long> phenotypeSet) {
         this.phenotypeSet = phenotypeSet;
     }
 
@@ -122,12 +113,12 @@ public class Animal {
         this.species = species;
     }
 
-    public Integer getChildId() {
-        return childId;
+    public Integer getSpeciesId() {
+        return speciesId;
     }
 
-    public void setChildId(Integer childId) {
-        this.childId = childId;
+    public void setSpeciesId(Integer childId) {
+        this.speciesId = speciesId;
     }
 
     public Integer getId() {

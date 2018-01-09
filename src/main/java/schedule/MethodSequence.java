@@ -1,39 +1,39 @@
-package animal;
+package schedule;
+
+import project.Competency;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
-public class BreedingEvent {
+public class MethodSequence {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String name;
     private String description;
-    private Animal dadBreeder;
-    private Animal momBreeder;
+    private Set<MethodSequenceItem> methodSequenceItemSet;
 
-    protected BreedingEvent() {
+    public MethodSequence() {
     }
 
-    public BreedingEvent(String name, String description) {
+    public MethodSequence(String name, String description, Set<MethodSequenceItem> methodSequenceItemSet) {
         this.name = name;
         this.description = description;
-    }
-
-    public Integer getID(){
-        return id;
-    }
-
-    public void setId(Integer id){
-        this.id = id;
+        this.methodSequenceItemSet = methodSequenceItemSet;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -52,19 +52,11 @@ public class BreedingEvent {
         this.description = description;
     }
 
-    public Animal getDadBreeder() {
-        return dadBreeder;
+    public Set<MethodSequenceItem> getMethodSequenceItemSet() {
+        return methodSequenceItemSet;
     }
 
-    public void setDadBreeder(Animal dadBreeder) {
-        this.dadBreeder = dadBreeder;
-    }
-
-    public Animal getMomBreeder() {
-        return momBreeder;
-    }
-
-    public void setMomBreeder(Animal momBreeder) {
-        this.momBreeder = momBreeder;
+    public void setMethodSequenceItemSet(Set<MethodSequenceItem> methodSequenceItemSet) {
+        this.methodSequenceItemSet = methodSequenceItemSet;
     }
 }

@@ -11,11 +11,7 @@ public class Phenotype {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-
-    private long dateAssigned;
-
     private String name;
-
     private String description;
 
     public Phenotype(){
@@ -23,7 +19,6 @@ public class Phenotype {
     }
 
     public Phenotype(long dateAssigned, String name, String description) {
-        this.dateAssigned = dateAssigned;
         this.name = name;
         this.description = description;
     }
@@ -34,14 +29,6 @@ public class Phenotype {
 
     public void setId(Integer id){
         this.id = id;
-    }
-
-    public long getDateAssigned(){
-        return dateAssigned;
-    }
-
-    public void setDateAssigned(long dateAssigned){
-        this.dateAssigned = dateAssigned;
     }
 
     public String getName(){

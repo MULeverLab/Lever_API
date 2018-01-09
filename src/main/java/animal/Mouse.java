@@ -11,14 +11,10 @@ public class Mouse {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-
-    private int cageId;
-
-    private int coatColor;
-
-    private int leftEarPunches;
-
-    private int rightEarPunches;
+    private Integer cageId;
+    private Integer coatColor;
+    private Integer leftEarPunches;
+    private Integer rightEarPunches;
 
     protected Mouse() {
 

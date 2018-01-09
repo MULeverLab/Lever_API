@@ -2,6 +2,7 @@ package project;
 
 import animal.Animal;
 import animal.Colony;
+import schedule.MethodSequence;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,12 +23,12 @@ public class Project {
     private Set<Colony> colonySet;
     private Set<Animal> animalSet;
     private Set<User> userSet;
+    private Set<MethodSequence> methodSequences;
 
     public Project() {
     }
 
-    public Project(Integer id, String name, String description, Long startDate, Long completionDate, Set<Colony> colonySet, Set<Animal> animalSet, Set<User> userSet) {
-        this.id = id;
+    public Project(String name, String description, Long startDate, Long completionDate, Set<Colony> colonySet, Set<Animal> animalSet, Set<User> userSet, Set<MethodSequence> methodSequences) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -35,6 +36,7 @@ public class Project {
         this.colonySet = colonySet;
         this.animalSet = animalSet;
         this.userSet = userSet;
+        this.methodSequences = methodSequences;
     }
 
     public Set<Animal> getAnimalSet() {
@@ -99,5 +101,13 @@ public class Project {
 
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
+    }
+
+    public Set<MethodSequence> getMethodSequences() {
+        return methodSequences;
+    }
+
+    public void setMethodSequences(Set<MethodSequence> methodSequences) {
+        this.methodSequences = methodSequences;
     }
 }

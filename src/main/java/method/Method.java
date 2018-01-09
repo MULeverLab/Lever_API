@@ -1,4 +1,4 @@
-package animal;
+package method;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,34 +6,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class BreedingEvent {
+public class Method {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String name;
     private String description;
-    private Animal dadBreeder;
-    private Animal momBreeder;
+    private Integer methodType;
+    private Integer methodId;
 
-    protected BreedingEvent() {
+    public Method() {
     }
 
-    public BreedingEvent(String name, String description) {
+    public Method(String name, String description, Integer methodType, Integer methodId) {
         this.name = name;
         this.description = description;
-    }
-
-    public Integer getID(){
-        return id;
-    }
-
-    public void setId(Integer id){
-        this.id = id;
+        this.methodType = methodType;
+        this.methodId = methodId;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -52,19 +50,19 @@ public class BreedingEvent {
         this.description = description;
     }
 
-    public Animal getDadBreeder() {
-        return dadBreeder;
+    public Integer getMethodType() {
+        return methodType;
     }
 
-    public void setDadBreeder(Animal dadBreeder) {
-        this.dadBreeder = dadBreeder;
+    public void setMethodType(Integer methodType) {
+        this.methodType = methodType;
     }
 
-    public Animal getMomBreeder() {
-        return momBreeder;
+    public Integer getMethodId() {
+        return methodId;
     }
 
-    public void setMomBreeder(Animal momBreeder) {
-        this.momBreeder = momBreeder;
+    public void setMethodId(Integer methodId) {
+        this.methodId = methodId;
     }
 }

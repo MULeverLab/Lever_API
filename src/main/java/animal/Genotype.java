@@ -11,9 +11,7 @@ public class Genotype {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-
     private String name;
-
     private String description;
 
     protected Genotype(){
