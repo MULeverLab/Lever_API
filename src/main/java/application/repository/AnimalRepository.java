@@ -9,17 +9,24 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
+
+    Optional<Set<Animal>> findAnimalsByIdGreaterThan(Integer id);
+
     Optional<Set<Animal>> findAnimalsById(Integer id);
 
     Optional<Set<Animal>> findAnimalsByGenotype(Genotype genotype);
 
-    Optional<Set<Animal>> findAnimalsByPhenotypeBridgeSetContaining(PhenotypeBridge phenotypeBridge);
+    Optional<Animal> findAnimalByPhenotypeBridgeSetContaining(PhenotypeBridge phenotypeBridge);
 
     Optional<Set<Animal>> findAnimalsBySex(Integer sex);
 
-    Optional<Set<Animal>> findAnimalsByDateOfBirth(Long dateOfBirth);
+    Optional<Set<Animal>> findAnimalsByDateOfBirthGreaterThan(Long dateOfBirth);
 
-    Optional<Set<Animal>> findAnimalsByDateOfDeath(Long dateOfDeath);
+    Optional<Set<Animal>> findAnimalsByDateOfDeathGreaterThan(Long dateOfDeath);
+
+    Optional<Set<Animal>> findAnimalsByDateOfBirthLessThan(Long dateOfBirth);
+
+    Optional<Set<Animal>> findAnimalsByDateOfDeathLessThan(Long dateOfDeath);
 
     Optional<Set<Animal>> findAnimalsByCauseOfDeath(Integer causeOfDeath);
 

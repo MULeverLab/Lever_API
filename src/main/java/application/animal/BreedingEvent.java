@@ -1,12 +1,13 @@
 package application.animal;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class BreedingEvent {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String description;
@@ -14,27 +15,33 @@ public class BreedingEvent {
     private Animal dadBreeder;
     @OneToOne
     private Animal momBreeder;
+    private Long pairFormingDate;
+    private Long weanedDay;
+    private Integer litterSize;
+    @OneToMany
+    private Set<Animal> animalSet;
 
     protected BreedingEvent() {
     }
 
-    public BreedingEvent(String name, String description, Animal dadBreeder, Animal momBreeder) {
+    public BreedingEvent(Integer id, String name, String description, Animal dadBreeder, Animal momBreeder, Long pairFormingDate, Long weanedDay, Integer litterSize, Set<Animal> animalSet) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.dadBreeder = dadBreeder;
         this.momBreeder = momBreeder;
-    }
-
-    public Integer getID(){
-        return id;
-    }
-
-    public void setId(Integer id){
-        this.id = id;
+        this.pairFormingDate = pairFormingDate;
+        this.weanedDay = weanedDay;
+        this.litterSize = litterSize;
+        this.animalSet = animalSet;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -67,5 +74,37 @@ public class BreedingEvent {
 
     public void setMomBreeder(Animal momBreeder) {
         this.momBreeder = momBreeder;
+    }
+
+    public Long getPairFormingDate() {
+        return pairFormingDate;
+    }
+
+    public void setPairFormingDate(Long pairFormingDate) {
+        this.pairFormingDate = pairFormingDate;
+    }
+
+    public Long getWeanedDay() {
+        return weanedDay;
+    }
+
+    public void setWeanedDay(Long weanedDay) {
+        this.weanedDay = weanedDay;
+    }
+
+    public Integer getLitterSize() {
+        return litterSize;
+    }
+
+    public void setLitterSize(Integer litterSize) {
+        this.litterSize = litterSize;
+    }
+
+    public Set<Animal> getAnimalSet() {
+        return animalSet;
+    }
+
+    public void setAnimalSet(Set<Animal> animalSet) {
+        this.animalSet = animalSet;
     }
 }
