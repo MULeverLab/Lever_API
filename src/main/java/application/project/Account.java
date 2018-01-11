@@ -4,25 +4,27 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class User {
+public class Account {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-
+    private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
-    private Integer privilege;
+    private String privilege;
     @OneToMany
     private Set<UserCompetencyBridge> userCompetencyBridgeSet;
 
-    protected User() {
+    protected Account() {
     }
 
-
-    public User(String firstName, String lastName, String email, String phoneNumber, Integer privilege, Set<UserCompetencyBridge> userCompetencyBridgeSet) {
+    public Account(String username, String password, String firstName, String lastName, String email, String phoneNumber, String privilege, Set<UserCompetencyBridge> userCompetencyBridgeSet) {
+        this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -37,6 +39,22 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -71,11 +89,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getPrivilege() {
+    public String getPrivilege() {
         return privilege;
     }
 
-    public void setPrivilege(Integer privilege) {
+    public void setPrivilege(String privilege) {
         this.privilege = privilege;
     }
 

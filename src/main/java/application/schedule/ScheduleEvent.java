@@ -3,7 +3,7 @@ package application.schedule;
 import application.animal.Animal;
 import application.method.Method;
 import application.project.Project;
-import application.project.User;
+import application.project.Account;
 
 import javax.persistence.*;
 
@@ -20,22 +20,26 @@ public class ScheduleEvent {
     @OneToOne
     private Animal animal;
     @OneToOne
-    private User user;
+    private Account account;
     private Long addedDate;
     private Long dueDate;
+    private Long claimDate;
     private Long completionDate;
+    private String description;
 
     protected ScheduleEvent() {
     }
 
-    public ScheduleEvent(Method method, Project project, Animal animal, User user, Long addedDate, Long dueDate, Long completionDate) {
+    public ScheduleEvent(Method method, Project project, Animal animal, Account account, Long addedDate, Long dueDate, Long claimDate, Long completionDate, String description) {
         this.method = method;
         this.project = project;
         this.animal = animal;
-        this.user = user;
+        this.account = account;
         this.addedDate = addedDate;
         this.dueDate = dueDate;
+        this.claimDate = claimDate;
         this.completionDate = completionDate;
+        this.description = description;
     }
 
     public Integer getId() {
@@ -70,12 +74,12 @@ public class ScheduleEvent {
         this.animal = animal;
     }
 
-    public User getUser() {
-        return user;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Long getAddedDate() {
@@ -94,11 +98,27 @@ public class ScheduleEvent {
         this.dueDate = dueDate;
     }
 
+    public Long getClaimDate() {
+        return claimDate;
+    }
+
+    public void setClaimDate(Long claimDate) {
+        this.claimDate = claimDate;
+    }
+
     public Long getCompletionDate() {
         return completionDate;
     }
 
     public void setCompletionDate(Long completionDate) {
         this.completionDate = completionDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

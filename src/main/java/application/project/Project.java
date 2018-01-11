@@ -22,21 +22,21 @@ public class Project {
     @OneToMany
     private Set<Animal> animalSet;
     @OneToMany
-    private Set<User> userSet;
+    private Set<Account> accountSet;
     @OneToMany
     private Set<MethodSequence> methodSequences;
 
     protected Project() {
     }
 
-    public Project(String name, String description, Long startDate, Long completionDate, Set<Colony> colonySet, Set<Animal> animalSet, Set<User> userSet, Set<MethodSequence> methodSequences) {
+    public Project(String name, String description, Long startDate, Long completionDate, Set<Colony> colonySet, Set<Animal> animalSet, Set<Account> accountSet, Set<MethodSequence> methodSequences) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.completionDate = completionDate;
         this.colonySet = colonySet;
         this.animalSet = animalSet;
-        this.userSet = userSet;
+        this.accountSet = accountSet;
         this.methodSequences = methodSequences;
     }
 
@@ -96,12 +96,12 @@ public class Project {
         this.colonySet = colonySet;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public Set<Account> getAccountSet() {
+        return accountSet;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setAccountSet(Set<Account> accountSet) {
+        this.accountSet = accountSet;
     }
 
     public Set<MethodSequence> getMethodSequences() {
