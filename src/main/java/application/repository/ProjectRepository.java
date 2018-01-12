@@ -1,5 +1,9 @@
 package application.repository;
 
+import application.animal.Animal;
+import application.animal.Colony;
+import application.project.Account;
+import application.schedule.MethodSequence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import application.project.Project;
 
@@ -18,5 +22,11 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     Optional<Set<Project>> findProjectsByCompletionDateGreaterThan(Long completionDate);
 
-    Optional<Set<Project>>
+    Optional<Set<Project>> findProjectsByColonySetContains(Colony colony);
+
+    Optional<Set<Project>> findProjectsByAnimalSetContains(Animal animal);
+
+    Optional<Set<Project>> findProjectsByAccountSetContains(Account account);
+
+    Optional<Set<Project>> findProjectsByMethodSequencesContains(MethodSequence methodSequence);
 }

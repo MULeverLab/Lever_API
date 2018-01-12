@@ -5,4 +5,5 @@ import application.schedule.MethodSequence;
 
 public interface MethodSequenceRepository extends JpaRepository<MethodSequence, Integer> {
 
+    MethodSequence findMethodSequenceById(Integer id);
 }
