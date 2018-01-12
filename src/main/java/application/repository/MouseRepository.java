@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface MouseRepository extends JpaRepository<Mouse, Integer> {
-    Optional<Set<Mouse>> findMouseById(Integer id);
+    Mouse findMouseById(Integer id);
 
     Optional<Set<Mouse>> findMICEByIdGreaterThan(Integer id);
 

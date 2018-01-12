@@ -11,6 +11,7 @@ public class VfssMethod {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
+    private 
 
     public VfssMethod() {
     }

@@ -57,18 +57,23 @@ public class GetAnimalController {
             Set<Animal> baseSet = baseOptional.get();
             Set<Animal> filterSet;
 
+
+            //This was changed. The animalRepository method was changed from findAnimalsById to findAnimalById and the
+            //return type was changed to Animal. As such I check to if the id is found, the return Animal object is not
+            //null and then add that animal to a set.
             if(animalId != null){
-                Optional<Set<Animal>> filterOptional = animalRepository.findAnimalsById(animalId);
-                if(filterOptional.isPresent()){
-                    filterSet = filterOptional.get();
+                Animal filterOptional = animalRepository.findAnimalById(animalId);
+                if(filterOptional != null){
+                    filterSet = new HashSet<Animal>();
+                    filterSet.add(filterOptional);
                     baseSet.retainAll(filterSet);
                 }
             }
 
             if(genotypeId != null){
-                Optional <Genotype> genotypeOptional = genotypeRepository.findGenotypeById(genotypeId);
-                if (genotypeOptional.isPresent()) {
-                    Optional<Set<Animal>> filterOptional = animalRepository.findAnimalsByGenotype(genotypeOptional.get());
+                Genotype genotypeOptional = genotypeRepository.findGenotypeById(genotypeId);
+                if (genotypeOptional != null) {
+                    Optional<Set<Animal>> filterOptional = animalRepository.findAnimalsByGenotype(genotypeOptional);
                     if (filterOptional.isPresent()) {
                         filterSet = filterOptional.get();
                         baseSet.retainAll(filterSet);

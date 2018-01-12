@@ -12,7 +12,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
     Optional<Set<Animal>> findAnimalsByIdGreaterThan(Integer id);
 
-    Optional<Set<Animal>> findAnimalsById(Integer id);
+    Animal findAnimalById(Integer id);
 
     Optional<Set<Animal>> findAnimalsByGenotype(Genotype genotype);
 
