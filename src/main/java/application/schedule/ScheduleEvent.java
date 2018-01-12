@@ -13,13 +13,13 @@ public class ScheduleEvent {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Method method;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Project project;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Animal animal;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Account account;
     private Long addedDate;
     private Long dueDate;

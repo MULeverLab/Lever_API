@@ -18,7 +18,6 @@ import java.util.Set;
 @RequestMapping("/get/animal")
 public class GetAnimalController {
 
-
     @Autowired
     AnimalRepository animalRepository;
 
@@ -41,7 +40,7 @@ public class GetAnimalController {
     PhenotypeBridgeRepository phenotypeBridgeRepository;
 
     @GetMapping("/animal")
-    ResponseEntity<String> getAnimal(@RequestParam(value = "animalId", required = false)  Integer animalId,
+    ResponseEntity<String> getAnimal(@RequestParam(value = "animalId", required = false) Integer animalId,
                                      @RequestParam(value = "genotypeId", required = false) Integer genotypeId,
                                      @RequestParam(value = "phenotypeId", required = false) Integer phenotypeId,
                                      @RequestParam(value = "sex", required = false) Integer sex,

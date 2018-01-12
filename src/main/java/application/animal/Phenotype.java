@@ -18,7 +18,7 @@ public class Phenotype {
 
     }
 
-    public Phenotype(long dateAssigned, String name, String description) {
+    public Phenotype(String name, String description) {
         this.name = name;
         this.description = description;
     }

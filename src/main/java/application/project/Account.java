@@ -16,7 +16,7 @@ public class Account {
     private String email;
     private String phoneNumber;
     private String privilege;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<UserCompetencyBridge> userCompetencyBridgeSet;
 
     protected Account() {

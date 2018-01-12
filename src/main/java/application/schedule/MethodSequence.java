@@ -11,7 +11,7 @@ public class MethodSequence {
     private Integer id;
     private String name;
     private String description;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<MethodSequenceItem> methodSequenceItemSet;
 
     protected MethodSequence() {

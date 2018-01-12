@@ -17,13 +17,13 @@ public class Project {
     private String description;
     private Long startDate;
     private Long completionDate;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Colony> colonySet;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Animal> animalSet;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Account> accountSet;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<MethodSequence> methodSequences;
 
     protected Project() {

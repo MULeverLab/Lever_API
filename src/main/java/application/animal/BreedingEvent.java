@@ -11,14 +11,14 @@ public class BreedingEvent {
     private Integer id;
     private String name;
     private String description;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Animal dadBreeder;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Animal momBreeder;
     private Long pairFormingDate;
     private Long weanedDay;
     private Integer litterSize;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Animal> animalSet;
 
     protected BreedingEvent() {

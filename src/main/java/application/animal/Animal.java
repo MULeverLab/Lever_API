@@ -9,9 +9,9 @@ public class Animal {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Genotype genotype;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<PhenotypeBridge> phenotypeBridgeSet;
     private String description;
     private Integer sex;
@@ -25,7 +25,7 @@ public class Animal {
 
     }
 
-    public Animal(Genotype genotype, Set<PhenotypeBridge> phenotypeBridgeSet, String description, Integer sex, Long dateOfBirth, Long dateOfDeath, Integer causeOfDeath, Colony colony, Integer species, Integer speciesId) {
+    public Animal(Genotype genotype, Set<PhenotypeBridge> phenotypeBridgeSet, String description, Integer sex, Long dateOfBirth, Long dateOfDeath, Integer causeOfDeath, Integer species, Integer speciesId) {
         this.genotype = genotype;
         this.phenotypeBridgeSet = phenotypeBridgeSet;
         this.description = description;

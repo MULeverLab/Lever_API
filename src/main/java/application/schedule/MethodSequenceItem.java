@@ -14,7 +14,7 @@ public class MethodSequenceItem {
     private Integer frequency;
     private Integer repetitions;
     private Integer window;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<MsiCompetencyBridge> msiCompetencyBridgeSet;
 
     protected MethodSequenceItem() {

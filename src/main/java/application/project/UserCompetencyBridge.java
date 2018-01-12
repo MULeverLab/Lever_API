@@ -8,7 +8,7 @@ public class UserCompetencyBridge {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Competency competency;
     private Integer level;
 

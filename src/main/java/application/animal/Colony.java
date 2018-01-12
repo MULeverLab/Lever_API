@@ -11,7 +11,7 @@ public class Colony {
     private Integer id;
     private String name;
     private String description;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Animal> animalSet;
 
     protected Colony() {
