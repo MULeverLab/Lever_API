@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @SpringBootApplication
-//@ComponentScan({"application.animal", "application.method", "application.project", "application.schedule", "application.repository"})
+//@ComponentScan({"application.entities.animal", "application.entities.method", "application.entities.project", "application.entities.schedule", "application.repositories"})
 public class Application {
 
     public static void main(String[] args){
