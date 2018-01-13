@@ -15,15 +15,17 @@ public class Method {
     private String description;
     private Integer methodType;
     private Integer methodId;
+    private Long date;
 
     public Method() {
     }
 
-    public Method(String name, String description, Integer methodType, Integer methodId) {
+    public Method(String name, String description, Integer methodType, Integer methodId, Long date) {
         this.name = name;
         this.description = description;
         this.methodType = methodType;
         this.methodId = methodId;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -64,5 +66,13 @@ public class Method {
 
     public void setMethodId(Integer methodId) {
         this.methodId = methodId;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 }

@@ -25,10 +25,10 @@ public class VfssPositionOneMethod {
 
 
 
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.ALL})
     private VfssBolusMethod vfssBolusMethod;
 
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.ALL})
     private VfssPositionTwoMethod vfssPositionTwoMethod;
 
     public VfssPositionOneMethod() {

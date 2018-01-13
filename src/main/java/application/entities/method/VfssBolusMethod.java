@@ -20,10 +20,10 @@ public class VfssBolusMethod {
     private Long average;
     private Long combindedAverage;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private VfssPositionOneMethod vfssPositionOneMethod;
 
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.ALL})
     private VfssPositionTwoMethod vfssPositionTwoMethod;
 
     public VfssBolusMethod() {
