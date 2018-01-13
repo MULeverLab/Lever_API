@@ -62,23 +62,28 @@ public class DataInitializer {
 
         // create 5 animals (mice)
         Mouse mouse1 = new Mouse(23, 1, 1, 2);
+        mouseRepository.save(mouse1);
         Animal animal1 = new Animal(genotype1, new HashSet<PhenotypeBridge>(), "NA", 0, 0L, 0L, 0, 0, mouse1.getId());
         animal1.getPhenotypeBridgeSet().add(new PhenotypeBridge(phenotype1, 0L));
 
         Mouse mouse2 = new Mouse(41, 0, 0, 2);
-        Animal animal2 = new Animal(genotype2, new HashSet<PhenotypeBridge>(), "NA", 1, 0L, 0L, 1, 0, mouse1.getId());
+        mouseRepository.save(mouse2);
+        Animal animal2 = new Animal(genotype2, new HashSet<PhenotypeBridge>(), "NA", 1, 0L, 0L, 1, 0, mouse2.getId());
         animal2.getPhenotypeBridgeSet().add(new PhenotypeBridge(phenotype1, 0L));
 
         Mouse mouse3 = new Mouse(2, 1, 2, 1);
-        Animal animal3 = new Animal(genotype1, new HashSet<PhenotypeBridge>(), "NA", 1, 0L, 0L, 0, 0, mouse1.getId());
+        mouseRepository.save(mouse3);
+        Animal animal3 = new Animal(genotype1, new HashSet<PhenotypeBridge>(), "NA", 1, 0L, 0L, 0, 0, mouse3.getId());
         animal3.getPhenotypeBridgeSet().add(new PhenotypeBridge(phenotype1, 0L));
 
         Mouse mouse4 = new Mouse(12, 0, 0, 0);
-        Animal animal4 = new Animal(genotype1, new HashSet<PhenotypeBridge>(), "NA", 0, 0L, 0L, 1, 0, mouse1.getId());
+        mouseRepository.save(mouse4);
+        Animal animal4 = new Animal(genotype1, new HashSet<PhenotypeBridge>(), "NA", 0, 0L, 0L, 1, 0, mouse4.getId());
         animal4.getPhenotypeBridgeSet().add(new PhenotypeBridge(phenotype2, 0L));
 
         Mouse mouse5 = new Mouse(21, 1, 2, 2);
-        Animal animal5 = new Animal(genotype2, new HashSet<PhenotypeBridge>(), "NA", 0, 0L, 0L, 0, 0, mouse1.getId());
+        mouseRepository.save(mouse5);
+        Animal animal5 = new Animal(genotype2, new HashSet<PhenotypeBridge>(), "NA", 0, 0L, 0L, 0, 0, mouse5.getId());
         animal5.getPhenotypeBridgeSet().add(new PhenotypeBridge(phenotype2, 0L));
 
         // create 2 colonies
