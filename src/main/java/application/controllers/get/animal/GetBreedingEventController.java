@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
 
@@ -45,64 +46,50 @@ public class GetBreedingEventController {
             if (breedingEventId != null){
                 BreedingEvent filterOptional = breedingEventRepository.findBreedingEventById(breedingEventId);
                 if(filterOptional != null){
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
+                    baseList.retainAll((Collection<?>) filterOptional);
                 }
             }
 
             if(dadBreederId != null){
                 Animal dad = animalRepository.findAnimalById(dadBreederId);
                 if (dad != null){
-                    Optional < List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByDadBreeder(dad);
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-             }
-
+                    Optional < List<BreedingEvent>> filterOptional =
+                            breedingEventRepository.findBreedingEventsByDadBreeder(dad);
+                    filterOptional.ifPresent(baseList::retainAll);
+                }
             }
 
             if (momBreederId != null){
                 Animal mom = animalRepository.findAnimalById(momBreederId);
                 if (mom != null){
-                    Optional < List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByMomBreeder(mom);
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
+                    Optional < List<BreedingEvent>> filterOptional =
+                            breedingEventRepository.findBreedingEventsByMomBreeder(mom);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
-
             }
 
             if (afterPairFormingDate != null){
-                Optional<List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByPairFormingDateGreaterThan
-                        (afterPairFormingDate);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<BreedingEvent>> filterOptional =
+                        breedingEventRepository.findBreedingEventsByPairFormingDateGreaterThan(afterPairFormingDate);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (beforePairFormingDate != null){
-                Optional<List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByPairFormingDateLessThan(beforePairFormingDate);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<BreedingEvent>> filterOptional =
+                        breedingEventRepository.findBreedingEventsByPairFormingDateLessThan(beforePairFormingDate);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (afterWeanedDay != null){
-                Optional<List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByWeanedDayGreaterThan(afterWeanedDay);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<BreedingEvent>> filterOptional =
+                        breedingEventRepository.findBreedingEventsByWeanedDayGreaterThan(afterWeanedDay);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (beforeWeanedDay != null){
                 Optional<List<BreedingEvent>> filterOptional;
                 filterOptional = breedingEventRepository.findBreedingEventsByWeanedDayLessThan(beforeWeanedDay);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

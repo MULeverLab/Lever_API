@@ -33,10 +33,6 @@ public class GetProjectController {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private CompetencyRepository competencyRepository;
-    @Autowired
-    private UserCompetencyBridgeRespository userCompetencyBridgeRespository;
-    @Autowired
     private ColonyRepository colonyRepository;
     @Autowired
     private AnimalRepository animalRepository;
@@ -54,83 +50,64 @@ public class GetProjectController {
                                       @RequestParam(value = "accountId", required = false) Integer accountId,
                                       @RequestParam(value = "methodSequenceId", required = false) Integer methodSequenceId){
 
-
         List<Project> baseList = (List<Project>) projectRepository.findAll();
         if (baseList.size() > 0){
             Optional<List<Project>> filterOptional;
 
             if(projectId != null){
                 Optional<Project> optional = projectRepository.findProjectById(projectId);
-                if(optional.isPresent()){
-                    baseList.retainAll((Collection<?>) optional.get());
-                }
+                optional.ifPresent(project -> baseList.retainAll((Collection<?>) project));
             }
 
             if(beforeStartDate != null){
                 filterOptional = projectRepository.findProjectsByStartDateLessThan(beforeStartDate);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterStartDate != null){
                 filterOptional = projectRepository.findProjectsByStartDateGreaterThan(afterStartDate);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(beforeCompletionDate != null){
                 filterOptional = projectRepository.findProjectsByCompletionDateLessThan(beforeCompletionDate);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterCompletionDate != null){
                 filterOptional = projectRepository.findProjectsByCompletionDateGreaterThan(afterCompletionDate);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(colonyId != null){
                 Colony colony = colonyRepository.findColonyById(colonyId);
                 if(colony != null){
-                    filterOptional = projectRepository.findProjectsByColonySetContains(colony);
-                    if(filterOptional.isPresent()){
-                        baseList.retainAll(filterOptional.get());
-                    }
+                    filterOptional = projectRepository.findProjectsByColonyListContains(colony);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(animalId != null){
                 Animal animal = animalRepository.findAnimalById(animalId);
                 if(animal != null){
-                    filterOptional = projectRepository.findProjectsByAnimalSetContains(animal);
-                    if(filterOptional.isPresent()){
-                        baseList.retainAll(filterOptional.get());
-                    }
+                    filterOptional = projectRepository.findProjectsByAnimalListContains(animal);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(accountId != null){
                 Account account = accountRepository.findAccountById(accountId);
                 if(account != null){
-                    filterOptional = projectRepository.findProjectsByAccountSetContains(account);
-                    if(filterOptional.isPresent()){
-                        baseList.retainAll(filterOptional.get());
-                    }
+                    filterOptional = projectRepository.findProjectsByAccountListContains(account);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(methodSequenceId != null){
-                MethodSequence methodSequence = methodSequenceRepository.findMethodSequenceById(methodSequenceId);
-                if(methodSequence != null){
-                    filterOptional = projectRepository.findProjectsByMethodSequencesContains(methodSequence);
-                    if(filterOptional.isPresent()){
-                        baseList.retainAll(filterOptional.get());
-                    }
+                Optional<MethodSequence> optional = methodSequenceRepository.findMethodSequenceById(methodSequenceId);
+                if(optional.isPresent()){
+                    filterOptional = projectRepository.findProjectsByMethodSequencesContains(optional.get());
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 

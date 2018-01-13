@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
 
@@ -28,16 +29,12 @@ public class GetPhenotypeController {
         Optional<List<Phenotype>> baseOptional = phenotypeRepository.findPhenotypesByIdGreaterThan(-1);
         if (baseOptional.isPresent() && baseOptional.get().size() > 0) {
             List<Phenotype> baseList = baseOptional.get();
-            List<Phenotype> filterList;
 
             if (phenotypeId != null) {
                 Phenotype filterOptional = phenotypeRepository.findPhenotypeById(phenotypeId);
                 if(filterOptional != null){
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
+                    baseList.retainAll((Collection<?>) filterOptional);
                 }
-
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

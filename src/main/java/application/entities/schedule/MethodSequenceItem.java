@@ -1,7 +1,9 @@
 package application.entities.schedule;
 
+import application.entities.project.Competency;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class MethodSequenceItem {
@@ -10,23 +12,25 @@ public class MethodSequenceItem {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private Integer methodType;
-    private Integer startOffset;
+    private Integer startOffList;
     private Integer frequency;
     private Integer repetitions;
     private Integer window;
-    @OneToMany(cascade = {CascadeType.ALL})
-    private Set<MsiCompetencyBridge> msiCompetencyBridgeSet;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Competency competency;
+    private Integer level;
 
     protected MethodSequenceItem() {
     }
 
-    public MethodSequenceItem(Integer methodType, Integer startOffset, Integer frequency, Integer repetitions, Integer window, Set<MsiCompetencyBridge> msiCompetencyBridgeSet) {
+    public MethodSequenceItem(Integer methodType, Integer startOffList, Integer frequency, Integer repetitions, Integer window, Competency competency, Integer level) {
         this.methodType = methodType;
-        this.startOffset = startOffset;
+        this.startOffList = startOffList;
         this.frequency = frequency;
         this.repetitions = repetitions;
         this.window = window;
-        this.msiCompetencyBridgeSet = msiCompetencyBridgeSet;
+        this.competency = competency;
+        this.level = level;
     }
 
     public Integer getId() {
@@ -45,12 +49,12 @@ public class MethodSequenceItem {
         this.methodType = methodType;
     }
 
-    public Integer getStartOffset() {
-        return startOffset;
+    public Integer getStartOffList() {
+        return startOffList;
     }
 
-    public void setStartOffset(Integer startOffset) {
-        this.startOffset = startOffset;
+    public void setStartOffList(Integer startOffList) {
+        this.startOffList = startOffList;
     }
 
     public Integer getFrequency() {
@@ -77,11 +81,19 @@ public class MethodSequenceItem {
         this.window = window;
     }
 
-    public Set<MsiCompetencyBridge> getMsiCompetencyBridgeSet() {
-        return msiCompetencyBridgeSet;
+    public Competency getCompetency() {
+        return competency;
     }
 
-    public void setMsiCompetencyBridgeSet(Set<MsiCompetencyBridge> msiCompetencyBridgeSet) {
-        this.msiCompetencyBridgeSet = msiCompetencyBridgeSet;
+    public void setCompetency(Competency competency) {
+        this.competency = competency;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

@@ -5,7 +5,7 @@ import application.entities.animal.Colony;
 import application.entities.schedule.MethodSequence;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Project {
@@ -18,41 +18,41 @@ public class Project {
     private Long startDate;
     private Long completionDate;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Colony> colonySet;
+    private List<Colony> colonyList;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Animal> animalSet;
+    private List<Animal> animalList;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Account> accountSet;
+    private List<Account> accountList;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<MethodSequence> methodSequences;
+    private List<MethodSequence> methodSequences;
 
     protected Project() {
     }
 
-    public Project(String name, String description, Long startDate, Long completionDate, Set<Colony> colonySet, Set<Animal> animalSet, Set<Account> accountSet, Set<MethodSequence> methodSequences) {
+    public Project(String name, String description, Long startDate, Long completionDate, List<Colony> colonyList, List<Animal> animalList, List<Account> accountList, List<MethodSequence> methodSequences) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.completionDate = completionDate;
-        this.colonySet = colonySet;
-        this.animalSet = animalSet;
-        this.accountSet = accountSet;
+        this.colonyList = colonyList;
+        this.animalList = animalList;
+        this.accountList = accountList;
         this.methodSequences = methodSequences;
     }
 
-    public Set<Animal> getAnimalSet() {
-        return animalSet;
+    public List<Animal> getAnimalList() {
+        return animalList;
     }
 
-    public void setAnimalSet(Set<Animal> animalSet) {
-        this.animalSet = animalSet;
+    public void ListAnimalList(List<Animal> animalList) {
+        this.animalList = animalList;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void ListId(Integer id) {
         this.id = id;
     }
 
@@ -60,7 +60,7 @@ public class Project {
         return name;
     }
 
-    public void setName(String name) {
+    public void ListName(String name) {
         this.name = name;
     }
 
@@ -68,7 +68,7 @@ public class Project {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void ListDescription(String description) {
         this.description = description;
     }
 
@@ -76,7 +76,7 @@ public class Project {
         return startDate;
     }
 
-    public void setStartDate(Long startDate) {
+    public void ListStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
@@ -84,31 +84,31 @@ public class Project {
         return completionDate;
     }
 
-    public void setCompletionDate(Long completionDate) {
+    public void ListCompletionDate(Long completionDate) {
         this.completionDate = completionDate;
     }
 
-    public Set<Colony> getColonySet() {
-        return colonySet;
+    public List<Colony> getColonyList() {
+        return colonyList;
     }
 
-    public void setColonySet(Set<Colony> colonySet) {
-        this.colonySet = colonySet;
+    public void ListColonyList(List<Colony> colonyList) {
+        this.colonyList = colonyList;
     }
 
-    public Set<Account> getAccountSet() {
-        return accountSet;
+    public List<Account> getAccountList() {
+        return accountList;
     }
 
-    public void setAccountSet(Set<Account> accountSet) {
-        this.accountSet = accountSet;
+    public void ListAccountList(List<Account> accountList) {
+        this.accountList = accountList;
     }
 
-    public Set<MethodSequence> getMethodSequences() {
+    public List<MethodSequence> getMethodSequences() {
         return methodSequences;
     }
 
-    public void setMethodSequences(Set<MethodSequence> methodSequences) {
+    public void ListMethodSequences(List<MethodSequence> methodSequences) {
         this.methodSequences = methodSequences;
     }
 }

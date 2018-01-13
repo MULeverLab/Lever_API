@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
 
@@ -32,11 +33,8 @@ public class GetGenotypeController {
             if (genotypeId != null) {
                 Genotype filterOptional = genotypeRepository.findGenotypeById(genotypeId);
                 if(filterOptional != null){
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
+                    baseList.retainAll((Collection<?>) filterOptional);
                 }
-
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

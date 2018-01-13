@@ -49,7 +49,7 @@ public class GetAccountController {
                                       @RequestParam(value = "privilege", required = false) String privilege,
                                       @RequestParam(value = "competency", required = false) List<Integer> competencyIdList) {
 
-        List<Account> baseList = (List<Account>) accountRepository.findAll();
+        List<Account> baseList = accountRepository.findAll();
         if (baseList.size() > 0) {
             Optional<List<Account>> filterOptional;
 
@@ -62,44 +62,32 @@ public class GetAccountController {
 
             if (username != null) {
                 filterOptional = accountRepository.findAccountsByUsernameLike(username);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (firstName != null) {
                 filterOptional = accountRepository.findAccountsByFirstNameLike(firstName);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (lastName != null) {
                 filterOptional = accountRepository.findAccountsByLastNameLike(lastName);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (email != null) {
                 filterOptional = accountRepository.findAccountsByEmailLike(email);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (phone != null) {
                 filterOptional = accountRepository.findAccountsByPhoneNumber(phone);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (privilege != null) {
                 filterOptional = accountRepository.findAccountsByPrivilege(privilege);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (competencyIdList != null && competencyIdList.size() > 0) {
@@ -121,9 +109,7 @@ public class GetAccountController {
                 }
 
                 accountList = new ArrayList<>(new HashSet<>(accountList));
-                if (accountList.size() > 0) {
-                    baseList.retainAll(accountList);
-                }
+                baseList.retainAll(accountList);
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

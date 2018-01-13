@@ -1,5 +1,7 @@
 package application.entities.project;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,6 +12,7 @@ public class Account {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String username;
+    @JsonIgnore
     private String password;
     private String firstName;
     private String lastName;

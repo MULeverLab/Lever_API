@@ -1,7 +1,7 @@
 package application.entities.schedule;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class MethodSequence {
@@ -12,22 +12,22 @@ public class MethodSequence {
     private String name;
     private String description;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<MethodSequenceItem> methodSequenceItemSet;
+    private List<MethodSequenceItem> methodSequenceItemList;
 
     protected MethodSequence() {
     }
 
-    public MethodSequence(String name, String description, Set<MethodSequenceItem> methodSequenceItemSet) {
+    public MethodSequence(String name, String description, List<MethodSequenceItem> methodSequenceItemList) {
         this.name = name;
         this.description = description;
-        this.methodSequenceItemSet = methodSequenceItemSet;
+        this.methodSequenceItemList = methodSequenceItemList;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void ListId(Integer id) {
         this.id = id;
     }
 
@@ -35,7 +35,7 @@ public class MethodSequence {
         return name;
     }
 
-    public void setName(String name) {
+    public void ListName(String name) {
         this.name = name;
     }
 
@@ -43,15 +43,15 @@ public class MethodSequence {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void ListDescription(String description) {
         this.description = description;
     }
 
-    public Set<MethodSequenceItem> getMethodSequenceItemSet() {
-        return methodSequenceItemSet;
+    public List<MethodSequenceItem> getMethodSequenceItemList() {
+        return methodSequenceItemList;
     }
 
-    public void setMethodSequenceItemSet(Set<MethodSequenceItem> methodSequenceItemSet) {
-        this.methodSequenceItemSet = methodSequenceItemSet;
+    public void ListMethodSequenceItemList(List<MethodSequenceItem> methodSequenceItemList) {
+        this.methodSequenceItemList = methodSequenceItemList;
     }
 }

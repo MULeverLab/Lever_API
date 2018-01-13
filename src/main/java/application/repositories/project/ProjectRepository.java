@@ -22,11 +22,11 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     Optional<List<Project>> findProjectsByCompletionDateGreaterThan(Long completionDate);
 
-    Optional<List<Project>> findProjectsByColonySetContains(Colony colony);
+    Optional<List<Project>> findProjectsByColonyListContains(Colony colony);
 
-    Optional<List<Project>> findProjectsByAnimalSetContains(Animal animal);
+    Optional<List<Project>> findProjectsByAnimalListContains(Animal animal);
 
-    Optional<List<Project>> findProjectsByAccountSetContains(Account account);
+    Optional<List<Project>> findProjectsByAccountListContains(Account account);
 
     Optional<List<Project>> findProjectsByMethodSequencesContains(MethodSequence methodSequence);
 }

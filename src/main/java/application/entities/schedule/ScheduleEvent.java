@@ -2,16 +2,18 @@ package application.entities.schedule;
 
 import application.entities.animal.Animal;
 import application.entities.method.Method;
+import application.entities.project.Competency;
 import application.entities.project.Project;
 import application.entities.project.Account;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class ScheduleEvent {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToOne(cascade = {CascadeType.ALL})
     private Method method;
@@ -26,11 +28,14 @@ public class ScheduleEvent {
     private Long claimDate;
     private Long completionDate;
     private String description;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Competency competency;
+    private Integer level;
 
     protected ScheduleEvent() {
     }
 
-    public ScheduleEvent(Method method, Project project, Animal animal, Account account, Long addedDate, Long dueDate, Long claimDate, Long completionDate, String description) {
+    public ScheduleEvent(Method method, Project project, Animal animal, Account account, Long addedDate, Long dueDate, Long claimDate, Long completionDate, String description, Competency competency, Integer level) {
         this.method = method;
         this.project = project;
         this.animal = animal;
@@ -40,6 +45,8 @@ public class ScheduleEvent {
         this.claimDate = claimDate;
         this.completionDate = completionDate;
         this.description = description;
+        this.competency = competency;
+        this.level = level;
     }
 
     public Integer getId() {
@@ -120,5 +127,21 @@ public class ScheduleEvent {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Competency getCompetency() {
+        return competency;
+    }
+
+    public void setCompetency(Competency competency) {
+        this.competency = competency;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }
