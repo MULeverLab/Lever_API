@@ -1,5 +1,6 @@
 package application.repositories.project;
 
+import application.entities.project.UserCompetencyBridge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import application.entities.project.Account;
 
@@ -22,4 +23,5 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     Optional<List<Account>> findAccountsByPrivilege(String privilege);
 
+    Optional<List<Account>> findAccountsByUserCompetencyBridgeSetContains(UserCompetencyBridge userCompetencyBridge);
 }

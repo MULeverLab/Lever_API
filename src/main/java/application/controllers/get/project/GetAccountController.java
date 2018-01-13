@@ -1,6 +1,8 @@
 package application.controllers.get.project;
 
 import application.entities.project.Account;
+import application.entities.project.Competency;
+import application.entities.project.UserCompetencyBridge;
 import application.repositories.animal.AnimalRepository;
 import application.repositories.animal.ColonyRepository;
 import application.repositories.project.AccountRepository;
@@ -13,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Optional;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -44,7 +44,8 @@ public class GetAccountController {
                                       @RequestParam(value = "lastName", required = false) String lastName,
                                       @RequestParam(value = "email", required = false) String email,
                                       @RequestParam(value = "phone", required = false) String phone,
-                                      @RequestParam(value = "privilege", required = false) String privilege) {
+                                      @RequestParam(value = "privilege", required = false) String privilege,
+                                      @RequestParam(value = "competency", required = false) List<Integer> competencyIdList) {
 
         List<Account> baseList = (List<Account>) accountRepository.findAll();
         if (baseList.size() > 0) {
@@ -96,6 +97,30 @@ public class GetAccountController {
                 filterOptional = accountRepository.findAccountsByPrivilege(privilege);
                 if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
                     baseList.retainAll(filterOptional.get());
+                }
+            }
+
+            if (competencyIdList != null && competencyIdList.size() > 0) {
+                List<UserCompetencyBridge> userCompetencyBridgeList = new ArrayList<>();
+                for(Integer id : competencyIdList){
+                    Competency competency = competencyRepository.findCompetencyById(id);
+                    if(competency != null){
+                        Optional<List<UserCompetencyBridge>> ucbListOptional =
+                                userCompetencyBridgeRespository.findUserCompetencyBridgesByCompetency(competency);
+                        ucbListOptional.ifPresent(userCompetencyBridgeList::addAll);
+                    }
+                }
+
+                List<Account> accountList = new ArrayList<>();
+                for(UserCompetencyBridge userCompetencyBridge : userCompetencyBridgeList){
+                    Optional<List<Account>> accountListOptional =
+                            accountRepository.findAccountsByUserCompetencyBridgeSetContains(userCompetencyBridge);
+                    accountListOptional.ifPresent(accountList::addAll);
+                }
+
+                accountList = new ArrayList<>(new HashSet<>(accountList));
+                if (accountList.size() > 0) {
+                    baseList.retainAll(accountList);
                 }
             }
 
