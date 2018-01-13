@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/get/breedingevent")
+@RequestMapping("/get/animal")
 public class GetBreedingEventController {
 
     @Autowired
@@ -72,7 +72,7 @@ public class GetBreedingEventController {
             if (afterPairFormingDate != null){
                 Optional<List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByPairFormingDateGreaterThan
                         (afterPairFormingDate);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -80,7 +80,7 @@ public class GetBreedingEventController {
 
             if (beforePairFormingDate != null){
                 Optional<List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByPairFormingDateLessThan(beforePairFormingDate);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -88,7 +88,7 @@ public class GetBreedingEventController {
 
             if (afterWeanedDay != null){
                 Optional<List<BreedingEvent>> filterOptional = breedingEventRepository.findBreedingEventsByWeanedDayGreaterThan(afterWeanedDay);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -97,7 +97,7 @@ public class GetBreedingEventController {
             if (beforeWeanedDay != null){
                 Optional<List<BreedingEvent>> filterOptional;
                 filterOptional = breedingEventRepository.findBreedingEventsByWeanedDayLessThan(beforeWeanedDay);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -107,7 +107,7 @@ public class GetBreedingEventController {
 
         }
 
-        return new ResponseEntity<>("NO BREEDING EVENT IN BASE List", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("NO BREEDING EVENT IN BASE LIST", HttpStatus.NO_CONTENT);
 
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/get/mouse")
+@RequestMapping("/get/animal")
 public class GetMouseController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class GetMouseController {
 
             if (cageId != null){
                 Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByCageId(cageId);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -56,7 +56,7 @@ public class GetMouseController {
 
             if (coatColor != null){
                 Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByCoatColor(coatColor);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -64,7 +64,7 @@ public class GetMouseController {
 
             if (leftEarPunches != null){
                 Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByLeftEarPunches(leftEarPunches);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }
@@ -72,7 +72,7 @@ public class GetMouseController {
 
             if (rightEarPunches != null){
                 Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByRightEarPunches(rightEarPunches);
-                if(filterOptional.isPresent()){
+                if(filterOptional.isPresent() && filterOptional.get().size()>0){
                     filterList = filterOptional.get();
                     baseList.retainAll(filterList);
                 }

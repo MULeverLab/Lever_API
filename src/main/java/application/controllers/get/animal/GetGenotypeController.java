@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/get/genotype")
+@RequestMapping("/get/animal")
 public class GetGenotypeController {
 
     @Autowired

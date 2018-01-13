@@ -17,6 +17,8 @@ public class Method {
     private Integer methodId;
     private Long date;
 
+
+
     public Method() {
     }
 

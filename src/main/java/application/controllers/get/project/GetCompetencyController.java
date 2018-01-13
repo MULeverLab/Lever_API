@@ -28,7 +28,7 @@ public class GetCompetencyController {
     @Autowired
     private CompetencyRepository competencyRepository;
 
-    @GetMapping("/account")
+    @GetMapping("/competency")
     ResponseEntity<String> getAccount(@RequestParam(value = "competencyId", required = false) Integer competencyId) {
 
         List<Account> baseList = (List<Account>) accountRepository.findAll();

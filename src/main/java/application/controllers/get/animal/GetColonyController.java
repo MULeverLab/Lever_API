@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/get/colony")
+@RequestMapping("/get/animal")
 public class GetColonyController {
 
     @Autowired

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/get/phenotype")
+@RequestMapping("/get/animal")
 public class GetPhenotypeController {
 
     @Autowired
