@@ -9,6 +9,8 @@ import application.repositories.project.CompetencyRepository;
 import application.repositories.project.ProjectRepository;
 import application.repositories.project.UserCompetencyBridgeRespository;
 import application.repositories.schedule.MethodSequenceRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,7 @@ public class GetCompetencyController {
     @GetMapping("/competency")
     ResponseEntity<String> getAccount(@RequestParam(value = "competencyId", required = false) Integer competencyId) {
 
-        List<Account> baseList = (List<Account>) accountRepository.findAll();
+        List<Competency> baseList = (List<Competency>) competencyRepository.findAll();
         if (baseList.size() > 0) {
             Optional<List<Account>> filterOptional;
 
@@ -42,9 +44,15 @@ public class GetCompetencyController {
                 }
             }
 
-            return new ResponseEntity<>(baseList.toString(), HttpStatus.OK);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
 
-        return new ResponseEntity<>("NO ACCOUNTS IN BASE List", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("NO ACCOUNTS IN BASE LIST", HttpStatus.NO_CONTENT);
     }
 }

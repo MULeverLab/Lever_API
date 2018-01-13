@@ -23,16 +23,10 @@ public class VfssPositionTwoMethod {
 
 
 
-    @OneToOne (cascade = {CascadeType.ALL})
-    private VfssBolusMethod vfssBolusMethod;
-
-    @OneToOne (cascade = {CascadeType.ALL})
-    private VfssPositionOneMethod vfssPositionOneMethod;
-
     public VfssPositionTwoMethod() {
     }
 
-    public VfssPositionTwoMethod(Integer trialNumber, Integer reviewerType, Long firstSwallowOnsetFrame, Long pttEndFrame, Long ettEndFrame, Long secondSwallowOnsetFrame, Long esophagusEmptiesPriorToSecondSwallow, Long numberOfSwallowsToClearEsophagus, boolean swallowInhibition, Integer methodRunId, VfssBolusMethod vfssBolusMethod, VfssPositionOneMethod vfssPositionOneMethod) {
+    public VfssPositionTwoMethod(Integer trialNumber, Integer reviewerType, Long firstSwallowOnsetFrame, Long pttEndFrame, Long ettEndFrame, Long secondSwallowOnsetFrame, Long esophagusEmptiesPriorToSecondSwallow, Long numberOfSwallowsToClearEsophagus, boolean swallowInhibition, Integer methodRunId) {
         this.trialNumber = trialNumber;
         this.reviewerType = reviewerType;
         this.firstSwallowOnsetFrame = firstSwallowOnsetFrame;
@@ -43,8 +37,6 @@ public class VfssPositionTwoMethod {
         this.numberOfSwallowsToClearEsophagus = numberOfSwallowsToClearEsophagus;
         this.swallowInhibition = swallowInhibition;
         this.methodRunId = methodRunId;
-        this.vfssBolusMethod = vfssBolusMethod;
-        this.vfssPositionOneMethod = vfssPositionOneMethod;
     }
 
     public Integer getId() {
@@ -135,19 +127,4 @@ public class VfssPositionTwoMethod {
         this.methodRunId = methodRunId;
     }
 
-    public VfssBolusMethod getVfssBolusMethod() {
-        return vfssBolusMethod;
-    }
-
-    public void setVfssBolusMethod(VfssBolusMethod vfssBolusMethod) {
-        this.vfssBolusMethod = vfssBolusMethod;
-    }
-
-    public VfssPositionOneMethod getVfssPositionOneMethod() {
-        return vfssPositionOneMethod;
-    }
-
-    public void setVfssPositionOneMethod(VfssPositionOneMethod vfssPositionOneMethod) {
-        this.vfssPositionOneMethod = vfssPositionOneMethod;
-    }
 }

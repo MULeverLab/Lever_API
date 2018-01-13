@@ -20,16 +20,10 @@ public class VfssBolusMethod {
     private Long average;
     private Long combindedAverage;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    private VfssPositionOneMethod vfssPositionOneMethod;
-
-    @OneToOne (cascade = {CascadeType.ALL})
-    private VfssPositionTwoMethod vfssPositionTwoMethod;
-
     public VfssBolusMethod() {
     }
 
-    public VfssBolusMethod(Integer onsetFrame, Integer trialNumber, Long timeGrabbedFrame, Long firstReviewer, Long secondReviewer, Integer methodRunId, Long average, Long combindedAverage, VfssPositionOneMethod vfssPositionOneMethod, VfssPositionTwoMethod vfssPositionTwoMethod) {
+    public VfssBolusMethod(Integer onsetFrame, Integer trialNumber, Long timeGrabbedFrame, Long firstReviewer, Long secondReviewer, Integer methodRunId, Long average, Long combindedAverage) {
         this.onsetFrame = onsetFrame;
         this.trialNumber = trialNumber;
         this.timeGrabbedFrame = timeGrabbedFrame;
@@ -38,8 +32,6 @@ public class VfssBolusMethod {
         this.methodRunId = methodRunId;
         this.average = average;
         this.combindedAverage = combindedAverage;
-        this.vfssPositionOneMethod = vfssPositionOneMethod;
-        this.vfssPositionTwoMethod = vfssPositionTwoMethod;
     }
 
     public Integer getId() {
@@ -106,21 +98,6 @@ public class VfssBolusMethod {
         this.combindedAverage = combindedAverage;
     }
 
-    public VfssPositionOneMethod getVfssPositionOneMethod() {
-        return vfssPositionOneMethod;
-    }
-
-    public void setVfssPositionOneMethod(VfssPositionOneMethod vfssPositionOneMethod) {
-        this.vfssPositionOneMethod = vfssPositionOneMethod;
-    }
-
-    public VfssPositionTwoMethod getVfssPositionTwoMethod() {
-        return vfssPositionTwoMethod;
-    }
-
-    public void setVfssPositionTwoMethod(VfssPositionTwoMethod vfssPositionTwoMethod) {
-        this.vfssPositionTwoMethod = vfssPositionTwoMethod;
-    }
 
     public Integer getMethodRunId() {
         return methodRunId;

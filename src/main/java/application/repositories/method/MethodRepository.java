@@ -12,6 +12,6 @@ public interface MethodRepository extends JpaRepository<Method, Integer> {
     Optional<List<Method>> findMethodsByDateGreaterThan (Long date);
     Optional<List<Method>> findMethodsByDateLessThan (Long date);
     Optional<List<Method>> findMethodsByMethodType (Integer methodType);
-    Optional<List<Method>> findMethodsByMethodId (Integer methodId);
+    Method findMethodByMethodId (Integer methodId);
 
 }

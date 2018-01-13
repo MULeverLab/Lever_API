@@ -64,9 +64,11 @@ public class GetMethodController {
             }
 
             if(methodId != null){
-                Optional<List<Method>> filterOptional = methodRepository.findMethodsByMethodId(methodId);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
+                Method filterOptional = methodRepository.findMethodByMethodId(methodId);
+                if (filterOptional !=null) {
+                    filterList = new ArrayList<>();
+                    filterList.add(filterOptional);
+                    baseList.retainAll(filterList);
                 }
             }
 

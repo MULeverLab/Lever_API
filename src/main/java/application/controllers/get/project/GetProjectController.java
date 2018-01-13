@@ -12,6 +12,8 @@ import application.repositories.project.ProjectRepository;
 import application.repositories.project.UserCompetencyBridgeRespository;
 import application.repositories.schedule.MethodSequenceRepository;
 import application.entities.schedule.MethodSequence;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -132,7 +134,13 @@ public class GetProjectController {
                 }
             }
 
-            return new ResponseEntity<>(baseList.toString(), HttpStatus.OK);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
 
         return new ResponseEntity<>("NO PROJECTS IN BASE List", HttpStatus.NO_CONTENT);

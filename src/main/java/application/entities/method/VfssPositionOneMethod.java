@@ -22,19 +22,14 @@ public class VfssPositionOneMethod {
     private Long lickEndFrame;
     private Long lickRate;
     private Integer methodRunId;
+    private String videoPath;
 
 
-
-    @OneToOne (cascade = {CascadeType.ALL})
-    private VfssBolusMethod vfssBolusMethod;
-
-    @OneToOne (cascade = {CascadeType.ALL})
-    private VfssPositionTwoMethod vfssPositionTwoMethod;
 
     public VfssPositionOneMethod() {
     }
 
-    public VfssPositionOneMethod(Integer trialNumber, Integer reviewerType, Long firstSwallowOnsetFrame, Long pttEndFrame, Long secondSwallowOnsetFrame, Long jawCyclesPerSwallow, Long twoSecFromSwallowOnsetFrame, Long swallowsPerTwoSeconds, Long lickOnsetFrame, Long lickEndFrame, Long lickRate, Integer methodRunId, VfssBolusMethod vfssBolusMethod, VfssPositionTwoMethod vfssPositionTwoMethod) {
+    public VfssPositionOneMethod(Integer trialNumber, Integer reviewerType, Long firstSwallowOnsetFrame, Long pttEndFrame, Long secondSwallowOnsetFrame, Long jawCyclesPerSwallow, Long twoSecFromSwallowOnsetFrame, Long swallowsPerTwoSeconds, Long lickOnsetFrame, Long lickEndFrame, Long lickRate, Integer methodRunId, String videoPath) {
         this.trialNumber = trialNumber;
         this.reviewerType = reviewerType;
         this.firstSwallowOnsetFrame = firstSwallowOnsetFrame;
@@ -47,8 +42,7 @@ public class VfssPositionOneMethod {
         this.lickEndFrame = lickEndFrame;
         this.lickRate = lickRate;
         this.methodRunId = methodRunId;
-        this.vfssBolusMethod = vfssBolusMethod;
-        this.vfssPositionTwoMethod = vfssPositionTwoMethod;
+        this.videoPath = videoPath;
     }
 
     public Integer getId() {
@@ -147,21 +141,6 @@ public class VfssPositionOneMethod {
         this.lickRate = lickRate;
     }
 
-    public VfssBolusMethod getVfssBolusMethod() {
-        return vfssBolusMethod;
-    }
-
-    public void setVfssBolusMethod(VfssBolusMethod vfssBolusMethod) {
-        this.vfssBolusMethod = vfssBolusMethod;
-    }
-
-    public VfssPositionTwoMethod getVfssPositionTwoMethod() {
-        return vfssPositionTwoMethod;
-    }
-
-    public void setVfssPositionTwoMethod(VfssPositionTwoMethod vfssPositionTwoMethod) {
-        this.vfssPositionTwoMethod = vfssPositionTwoMethod;
-    }
 
     public Integer getMethodRunId() {
         return methodRunId;
@@ -169,5 +148,14 @@ public class VfssPositionOneMethod {
 
     public void setMethodRunId(Integer methodRunId) {
         this.methodRunId = methodRunId;
+    }
+
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
     }
 }
