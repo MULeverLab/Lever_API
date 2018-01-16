@@ -2,6 +2,8 @@ package application.controllers.get.method;
 
 import application.entities.method.VfssMethod;
 import application.repositories.method.VfssMethodRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,13 @@ public class GetVfssMethodController {
                 }
             }
 
-            return new ResponseEntity<>(baseList.toString(), HttpStatus.OK);
-
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
 
         return new ResponseEntity<>("NO VFSS METHODS IN BASE List", HttpStatus.NO_CONTENT);
