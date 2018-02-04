@@ -11,8 +11,9 @@ public class Account {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
+    @Column(unique = true)
     private String username;
-    @JsonIgnore
+    //@JsonIgnore
     private String password;
     private String firstName;
     private String lastName;

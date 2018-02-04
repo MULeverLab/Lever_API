@@ -5,11 +5,13 @@ import application.entities.schedule.MethodSequenceItem;
 import application.entities.schedule.ScheduleEvent;
 import application.repositories.schedule.MethodSequenceItemRepository;
 import application.repositories.schedule.MethodSequenceRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -27,7 +29,8 @@ public class GetMethodSequenceController {
     private MethodSequenceItemRepository msiRepository;
 
     @GetMapping("/sequence")
-    ResponseEntity<String> getMethodSequence(@RequestParam(value = "sequenceId", required = false) Integer sequenceId,
+    ResponseEntity<String> getMethodSequence(@AuthenticationPrincipal User user,
+                                             @RequestParam(value = "sequenceId", required = false) Integer sequenceId,
                                              @RequestParam(value = "itemId", required = false) Integer itemId){
 
         List<MethodSequence> baseList = (List<MethodSequence>) methodSequenceRepository.findAll();

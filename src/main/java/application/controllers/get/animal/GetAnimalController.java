@@ -4,11 +4,13 @@ import application.entities.animal.Animal;
 import application.entities.animal.Genotype;
 import application.entities.animal.PhenotypeBridge;
 import application.repositories.animal.*;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,7 +45,8 @@ public class GetAnimalController {
     PhenotypeBridgeRepository phenotypeBridgeRepository;
 
     @GetMapping("/animal")
-    ResponseEntity<String> getAnimal(@RequestParam(value = "animalId", required = false) Integer animalId,
+    ResponseEntity<String> getAnimal(@AuthenticationPrincipal User user,
+                                     @RequestParam(value = "animalId", required = false) Integer animalId,
                                      @RequestParam(value = "genotypeId", required = false) Integer genotypeId,
                                      @RequestParam(value = "phenotypeId", required = false) Integer phenotypeId,
                                      @RequestParam(value = "sex", required = false) Integer sex,

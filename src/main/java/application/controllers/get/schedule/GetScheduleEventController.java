@@ -8,11 +8,13 @@ import application.repositories.animal.AnimalRepository;
 import application.repositories.project.AccountRepository;
 import application.repositories.project.ProjectRepository;
 import application.repositories.schedule.ScheduleEventRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -34,7 +36,8 @@ public class GetScheduleEventController {
     private AccountRepository accountRepository;
 
     @GetMapping("/event")
-    ResponseEntity<String> getScheduleEvent(@RequestParam(value = "eventId", required = false) Integer eventId,
+    ResponseEntity<String> getScheduleEvent(@AuthenticationPrincipal User user,
+                                            @RequestParam(value = "eventId", required = false) Integer eventId,
                                             @RequestParam(value = "projectId", required = false) Integer projectId,
                                             @RequestParam(value = "animalId", required = false) Integer animalId,
                                             @RequestParam(value = "accountId", required = false) Integer accountId,

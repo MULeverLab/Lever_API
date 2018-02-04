@@ -1,10 +1,12 @@
-package application.controllers.put.schedule;
+package application.controllers.save.schedule;
 
 import application.entities.schedule.MethodSequence;
 import application.repositories.schedule.MethodSequenceRepository;
+import application.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +18,8 @@ public class PutMethodSequenceController {
     private MethodSequenceRepository methodSequenceRepository;
 
     @PostMapping("/methodSequence")
-    ResponseEntity<String> putMethodSequence (@RequestBody MethodSequence methodSequence){
+    ResponseEntity<String> putMethodSequence (@AuthenticationPrincipal User user,
+                                              @RequestBody MethodSequence methodSequence){
         methodSequenceRepository.save(methodSequence);
         return new ResponseEntity<String>("MethodSequence is saved/updated", HttpStatus.OK);
     }

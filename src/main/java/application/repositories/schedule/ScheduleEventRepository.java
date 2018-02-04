@@ -37,4 +37,6 @@ public interface ScheduleEventRepository extends JpaRepository<ScheduleEvent, In
     Optional<List<ScheduleEvent>> findScheduleEventsByCompletionDateLessThan(Long completionDate);
 
     Optional<List<ScheduleEvent>> findScheduleEventsByCompletionDateGreaterThan(Long completionDate);
+
+    Optional<List<ScheduleEvent>> findScheduleEventsByCompleteEquals(boolean complete);
 }

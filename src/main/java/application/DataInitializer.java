@@ -1,6 +1,7 @@
 package application;
 
 import application.entities.animal.*;
+import application.entities.project.Account;
 import application.repositories.animal.*;
 import application.repositories.project.AccountRepository;
 import application.repositories.project.CompetencyRepository;
@@ -8,6 +9,7 @@ import application.repositories.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +17,8 @@ import java.util.HashSet;
 
 @RestController
 public class DataInitializer {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final AnimalRepository animalRepository;
 
@@ -38,7 +42,8 @@ public class DataInitializer {
     private final CompetencyRepository competencyRepository;
 
     @Autowired
-    public DataInitializer(AnimalRepository animalRepository, BreedingEventRepository breedingEventRepository, ColonyRepository colonyRepository, GenotypeRepository genotypeRepository, PhenotypeRepository phenotypeRepository, MouseRepository mouseRepository, ProjectRepository projectRepository, AccountRepository accountRepository, CompetencyRepository competencyRepository) {
+    public DataInitializer(PasswordEncoder passwordEncoder, AnimalRepository animalRepository, BreedingEventRepository breedingEventRepository, ColonyRepository colonyRepository, GenotypeRepository genotypeRepository, PhenotypeRepository phenotypeRepository, MouseRepository mouseRepository, ProjectRepository projectRepository, AccountRepository accountRepository, CompetencyRepository competencyRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.animalRepository = animalRepository;
         this.breedingEventRepository = breedingEventRepository;
         this.colonyRepository = colonyRepository;
@@ -101,6 +106,9 @@ public class DataInitializer {
         // all saved as a result of cascade
         colonyRepository.save(colony1);
         colonyRepository.save(colony2);
+
+        // initialize with test user
+        accountRepository.save(new Account("lever", passwordEncoder.encode("lab"), "Teresa", "Lever", null, null, null, null));
 
         return new ResponseEntity<String>("initialized", HttpStatus.OK);
     }

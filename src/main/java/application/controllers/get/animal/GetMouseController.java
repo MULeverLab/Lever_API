@@ -3,11 +3,13 @@ package application.controllers.get.animal;
 
 import application.entities.animal.Mouse;
 import application.repositories.animal.MouseRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +29,8 @@ public class GetMouseController {
     MouseRepository mouseRepository;
 
     @RequestMapping("/mouse")
-    ResponseEntity<String> getMouse(@RequestParam(value = "mouseId", required = false) Integer mouseId,
+    ResponseEntity<String> getMouse(@AuthenticationPrincipal User user,
+                                    @RequestParam(value = "mouseId", required = false) Integer mouseId,
                                     @RequestParam(value = "cageId", required = false) Integer cageId,
                                     @RequestParam(value = "coatColor", required = false) Integer coatColor,
                                     @RequestParam(value = "leftEarPunches", required = false) Integer leftEarPunches,

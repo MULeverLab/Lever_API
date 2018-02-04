@@ -1,10 +1,12 @@
-package application.controllers.put.animal;
+package application.controllers.save.animal;
 
 import application.entities.animal.Animal;
 import application.repositories.animal.AnimalRepository;
+import application.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +18,8 @@ public class PutAnimalController {
     AnimalRepository animalRepository;
 
     @PostMapping("/animal")
-    ResponseEntity<String> putAnimal(@RequestBody Animal animal){
+    ResponseEntity<String> putAnimal(@AuthenticationPrincipal User user,
+                                     @RequestBody Animal animal){
         animalRepository.save(animal);
         return new ResponseEntity<String>("Animal is saved/updated", HttpStatus.OK);
         }

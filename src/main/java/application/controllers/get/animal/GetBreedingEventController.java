@@ -4,11 +4,13 @@ import application.entities.animal.Animal;
 import application.entities.animal.BreedingEvent;
 import application.repositories.animal.AnimalRepository;
 import application.repositories.animal.BreedingEventRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,7 +30,8 @@ public class GetBreedingEventController {
     AnimalRepository animalRepository;
 
     @GetMapping("/breedingevent")
-    ResponseEntity<String> getBreedingEvent(@RequestParam(value = "breedingEventTd", required = false) Integer breedingEventId,
+    ResponseEntity<String> getBreedingEvent(@AuthenticationPrincipal User user,
+                                            @RequestParam(value = "breedingEventTd", required = false) Integer breedingEventId,
                                             @RequestParam(value = "dadBreederId", required = false) Integer dadBreederId,
                                             @RequestParam(value = "momBreederId", required = false) Integer momBreederId,
                                             @RequestParam(value = "afterPairFormingDate", required = false) Long afterPairFormingDate,

@@ -1,12 +1,12 @@
-package application.controllers.put.method;
+package application.controllers.save.method;
 
-import application.entities.animal.Phenotype;
 import application.entities.method.Method;
-import application.repositories.animal.PhenotypeRepository;
 import application.repositories.method.MethodRepository;
+import application.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +18,8 @@ public class PutMethodController {
     MethodRepository methodRepository;
 
     @PostMapping("/method")
-    ResponseEntity<String> putMethod (@RequestBody Method method){
+    ResponseEntity<String> putMethod (@AuthenticationPrincipal User user,
+                                      @RequestBody Method method){
         methodRepository.save(method);
         return new ResponseEntity<String>("Method is saved/updated", HttpStatus.OK);
     }

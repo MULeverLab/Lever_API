@@ -9,11 +9,13 @@ import application.repositories.project.CompetencyRepository;
 import application.repositories.project.ProjectRepository;
 import application.repositories.project.UserCompetencyBridgeRespository;
 import application.repositories.schedule.MethodSequenceRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -31,7 +33,8 @@ public class GetCompetencyController {
     private CompetencyRepository competencyRepository;
 
     @GetMapping("/competency")
-    ResponseEntity<String> getAccount(@RequestParam(value = "competencyId", required = false) Integer competencyId) {
+    ResponseEntity<String> getAccount(@AuthenticationPrincipal User user,
+                                      @RequestParam(value = "competencyId", required = false) Integer competencyId) {
 
         List<Competency> baseList = (List<Competency>) competencyRepository.findAll();
         if (baseList.size() > 0) {

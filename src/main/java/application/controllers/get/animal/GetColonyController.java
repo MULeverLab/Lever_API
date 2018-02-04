@@ -2,11 +2,13 @@ package application.controllers.get.animal;
 
 import application.entities.animal.Colony;
 import application.repositories.animal.ColonyRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +27,8 @@ public class GetColonyController {
     @Autowired
     ColonyRepository colonyRepository;
 
-    ResponseEntity<String> getColony (@RequestParam(value = "colonyId", required = false) Integer colonyId){
+    ResponseEntity<String> getColony (@AuthenticationPrincipal User user,
+                                      @RequestParam(value = "colonyId", required = false) Integer colonyId){
 
         Optional<List<Colony>> baseOptional = colonyRepository.findColoniesByIdGreaterThan(-1);
         if (baseOptional.isPresent() && baseOptional.get().size()>0) {

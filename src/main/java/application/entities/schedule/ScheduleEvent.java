@@ -31,11 +31,12 @@ public class ScheduleEvent {
     @OneToOne(cascade = {CascadeType.ALL})
     private Competency competency;
     private Integer level;
+    private boolean complete;
 
     protected ScheduleEvent() {
     }
 
-    public ScheduleEvent(Method method, Project project, Animal animal, Account account, Long addedDate, Long dueDate, Long claimDate, Long completionDate, String description, Competency competency, Integer level) {
+    public ScheduleEvent(Method method, Project project, Animal animal, Account account, Long addedDate, Long dueDate, Long claimDate, Long completionDate, String description, Competency competency, Integer level, boolean complete) {
         this.method = method;
         this.project = project;
         this.animal = animal;
@@ -47,6 +48,7 @@ public class ScheduleEvent {
         this.description = description;
         this.competency = competency;
         this.level = level;
+        this.complete = complete;
     }
 
     public Integer getId() {
@@ -143,5 +145,13 @@ public class ScheduleEvent {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 }

@@ -10,11 +10,13 @@ import application.repositories.project.CompetencyRepository;
 import application.repositories.project.ProjectRepository;
 import application.repositories.project.UserCompetencyBridgeRespository;
 import application.repositories.schedule.MethodSequenceRepository;
+import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,7 +42,8 @@ public class GetAccountController {
     private MethodSequenceRepository methodSequenceRepository;
 
     @GetMapping("/account")
-    ResponseEntity<String> getAccount(@RequestParam(value = "accountId", required = false) Integer accountId,
+    ResponseEntity<String> getAccount(@AuthenticationPrincipal User user,
+                                      @RequestParam(value = "accountId", required = false) Integer accountId,
                                       @RequestParam(value = "username", required = false) String username,
                                       @RequestParam(value = "firstName", required = false) String firstName,
                                       @RequestParam(value = "lastName", required = false) String lastName,
