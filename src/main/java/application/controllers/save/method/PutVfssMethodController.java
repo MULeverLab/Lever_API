@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/method")
 public class PutVfssMethodController {
 
+    private final VfssMethodRepository vfssMethodRepository;
+
     @Autowired
-    VfssMethodRepository vfssMethodRepository;
+    public PutVfssMethodController(VfssMethodRepository vfssMethodRepository) {
+        this.vfssMethodRepository = vfssMethodRepository;
+    }
 
     @PostMapping("/vfssMethod")
-    ResponseEntity<String> putVfssMethod (@AuthenticationPrincipal User user,
-                                          @RequestBody VfssMethod vfssMethod){
+    ResponseEntity putVfssMethod (@AuthenticationPrincipal User user,
+                                  @RequestBody VfssMethod vfssMethod){
         vfssMethodRepository.save(vfssMethod);
-        return new ResponseEntity<String>("VfssMethod is saved/updated", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -2,7 +2,6 @@ package application.controllers.get.schedule;
 
 import application.entities.schedule.MethodSequence;
 import application.entities.schedule.MethodSequenceItem;
-import application.entities.schedule.ScheduleEvent;
 import application.repositories.schedule.MethodSequenceItemRepository;
 import application.repositories.schedule.MethodSequenceRepository;
 import application.security.User;
@@ -23,29 +22,37 @@ import java.util.Optional;
 @RequestMapping("/get/schedule")
 public class GetMethodSequenceController {
 
+    private final MethodSequenceRepository methodSequenceRepository;
+    private final MethodSequenceItemRepository msiRepository;
+
     @Autowired
-    private MethodSequenceRepository methodSequenceRepository;
-    @Autowired
-    private MethodSequenceItemRepository msiRepository;
+    public GetMethodSequenceController(MethodSequenceRepository methodSequenceRepository, MethodSequenceItemRepository msiRepository) {
+        this.methodSequenceRepository = methodSequenceRepository;
+        this.msiRepository = msiRepository;
+    }
 
     @GetMapping("/sequence")
     ResponseEntity<String> getMethodSequence(@AuthenticationPrincipal User user,
                                              @RequestParam(value = "sequenceId", required = false) Integer sequenceId,
                                              @RequestParam(value = "itemId", required = false) Integer itemId){
 
-        List<MethodSequence> baseList = (List<MethodSequence>) methodSequenceRepository.findAll();
+        List<MethodSequence> baseList = methodSequenceRepository.findAll();
         if (baseList.size() > 0) {
             Optional<List<MethodSequence>> filterOptional;
 
             if (sequenceId != null) {
-                Optional<MethodSequence> optional = methodSequenceRepository.findMethodSequenceById(sequenceId);
-                optional.ifPresent(methodSequence -> baseList.retainAll((Collection<?>) methodSequence));
+                MethodSequence methodSequence = methodSequenceRepository.findOne(sequenceId);
+
+                if(methodSequence != null){
+                    baseList.retainAll((Collection<?>) methodSequence);
+                }
             }
 
             if (itemId != null) {
-                Optional<MethodSequenceItem> methodSequenceItem = msiRepository.findMethodSequenceItemById(itemId);
-                if (methodSequenceItem.isPresent()) {
-                    filterOptional = methodSequenceRepository.findMethodSequencesByMethodSequenceItemListContains(methodSequenceItem.get());
+                MethodSequenceItem methodSequenceItem = msiRepository.findOne(itemId);
+
+                if (methodSequenceItem != null) {
+                    filterOptional = methodSequenceRepository.findByMethodSequenceItemListContains(methodSequenceItem);
                     filterOptional.ifPresent(baseList::retainAll);
                 }
             }

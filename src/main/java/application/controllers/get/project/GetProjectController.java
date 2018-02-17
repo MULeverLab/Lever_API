@@ -7,9 +7,7 @@ import application.entities.project.Project;
 import application.repositories.animal.AnimalRepository;
 import application.repositories.animal.ColonyRepository;
 import application.repositories.project.AccountRepository;
-import application.repositories.project.CompetencyRepository;
 import application.repositories.project.ProjectRepository;
-import application.repositories.project.UserCompetencyBridgeRespository;
 import application.repositories.schedule.MethodSequenceRepository;
 import application.entities.schedule.MethodSequence;
 import application.security.User;
@@ -30,16 +28,20 @@ import java.util.List;
 @RequestMapping("/get/project")
 public class GetProjectController {
 
+    private final ProjectRepository projectRepository;
+    private final AccountRepository accountRepository;
+    private final ColonyRepository colonyRepository;
+    private final AnimalRepository animalRepository;
+    private final MethodSequenceRepository methodSequenceRepository;
+
     @Autowired
-    private ProjectRepository projectRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private ColonyRepository colonyRepository;
-    @Autowired
-    private AnimalRepository animalRepository;
-    @Autowired
-    private MethodSequenceRepository methodSequenceRepository;
+    public GetProjectController(ProjectRepository projectRepository, AccountRepository accountRepository, ColonyRepository colonyRepository, AnimalRepository animalRepository, MethodSequenceRepository methodSequenceRepository) {
+        this.projectRepository = projectRepository;
+        this.accountRepository = accountRepository;
+        this.colonyRepository = colonyRepository;
+        this.animalRepository = animalRepository;
+        this.methodSequenceRepository = methodSequenceRepository;
+    }
 
     @GetMapping("/project")
     ResponseEntity<String> getProject(@AuthenticationPrincipal User user,
@@ -53,63 +55,66 @@ public class GetProjectController {
                                       @RequestParam(value = "accountId", required = false) Integer accountId,
                                       @RequestParam(value = "methodSequenceId", required = false) Integer methodSequenceId){
 
-        List<Project> baseList = (List<Project>) projectRepository.findAll();
+        List<Project> baseList = projectRepository.findAll();
         if (baseList.size() > 0){
             Optional<List<Project>> filterOptional;
 
             if(projectId != null){
-                Optional<Project> optional = projectRepository.findProjectById(projectId);
-                optional.ifPresent(project -> baseList.retainAll((Collection<?>) project));
+                Project project = projectRepository.findOne(projectId);
+
+                if(project != null){
+                    baseList.retainAll((Collection<?>) project);
+                }
             }
 
             if(beforeStartDate != null){
-                filterOptional = projectRepository.findProjectsByStartDateLessThan(beforeStartDate);
+                filterOptional = projectRepository.findByStartDateLessThan(beforeStartDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterStartDate != null){
-                filterOptional = projectRepository.findProjectsByStartDateGreaterThan(afterStartDate);
+                filterOptional = projectRepository.findByStartDateGreaterThan(afterStartDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(beforeCompletionDate != null){
-                filterOptional = projectRepository.findProjectsByCompletionDateLessThan(beforeCompletionDate);
+                filterOptional = projectRepository.findByCompletionDateLessThan(beforeCompletionDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterCompletionDate != null){
-                filterOptional = projectRepository.findProjectsByCompletionDateGreaterThan(afterCompletionDate);
+                filterOptional = projectRepository.findByCompletionDateGreaterThan(afterCompletionDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(colonyId != null){
-                Colony colony = colonyRepository.findColonyById(colonyId);
+                Colony colony = colonyRepository.findOne(colonyId);
                 if(colony != null){
-                    filterOptional = projectRepository.findProjectsByColonyListContains(colony);
+                    filterOptional = projectRepository.findByColonyListContains(colony);
                     filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(animalId != null){
-                Animal animal = animalRepository.findAnimalById(animalId);
+                Animal animal = animalRepository.findOne(animalId);
                 if(animal != null){
-                    filterOptional = projectRepository.findProjectsByAnimalListContains(animal);
+                    filterOptional = projectRepository.findByAnimalListContains(animal);
                     filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(accountId != null){
-                Account account = accountRepository.findAccountById(accountId);
+                Account account = accountRepository.findOne(accountId);
                 if(account != null){
-                    filterOptional = projectRepository.findProjectsByAccountListContains(account);
+                    filterOptional = projectRepository.findByAccountListContains(account);
                     filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(methodSequenceId != null){
-                Optional<MethodSequence> optional = methodSequenceRepository.findMethodSequenceById(methodSequenceId);
-                if(optional.isPresent()){
-                    filterOptional = projectRepository.findProjectsByMethodSequencesContains(optional.get());
+                MethodSequence methodSequence = methodSequenceRepository.findOne(methodSequenceId);
+                if(methodSequence != null){
+                    filterOptional = projectRepository.findByMethodSequencesContains(methodSequence);
                     filterOptional.ifPresent(baseList::retainAll);
                 }
             }

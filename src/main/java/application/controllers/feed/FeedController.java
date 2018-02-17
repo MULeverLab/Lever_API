@@ -41,22 +41,22 @@ public class FeedController {
         // build list of claimed events
         List<ScheduleEvent> claimedScheduleEvents = new ArrayList<>();
 
-        Optional<List<ScheduleEvent>> optional = scheduleEventRepository.findScheduleEventsByAccount(account);
+        Optional<List<ScheduleEvent>> optional = scheduleEventRepository.findByAccount(account);
         if(optional.isPresent()){
             claimedScheduleEvents = optional.get();
 
-            optional = scheduleEventRepository.findScheduleEventsByCompleteEquals(false);
+            optional = scheduleEventRepository.findByCompleteEquals(false);
             optional.ifPresent(claimedScheduleEvents::retainAll);
         }
 
         // build list of unclaimed events
         List<ScheduleEvent> unclaimedScheduleEvents = new ArrayList<>();
 
-        optional = scheduleEventRepository.findScheduleEventsByAccount(null);
+        optional = scheduleEventRepository.findByAccount(null);
         if(optional.isPresent()){
             unclaimedScheduleEvents = optional.get();
 
-            optional = scheduleEventRepository.findScheduleEventsByCompleteEquals(false);
+            optional = scheduleEventRepository.findByCompleteEquals(false);
             optional.ifPresent(unclaimedScheduleEvents::retainAll);
         }
 
@@ -70,7 +70,7 @@ public class FeedController {
     }
 
     private Account validateAccount(String username, String password){
-        Optional<Account> accountOptional = accountRepository.findAccountByUsername(username);
+        Optional<Account> accountOptional = accountRepository.findByUsername(username);
 
         if(accountOptional.isPresent()){
             Account account = accountOptional.get();

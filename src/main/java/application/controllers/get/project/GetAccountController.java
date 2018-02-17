@@ -26,20 +26,17 @@ import java.util.*;
 @RequestMapping("/get/project")
 public class GetAccountController {
 
+
+    private final AccountRepository accountRepository;
+    private final CompetencyRepository competencyRepository;
+    private final UserCompetencyBridgeRespository userCompetencyBridgeRespository;
+
     @Autowired
-    private ProjectRepository projectRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private CompetencyRepository competencyRepository;
-    @Autowired
-    private UserCompetencyBridgeRespository userCompetencyBridgeRespository;
-    @Autowired
-    private ColonyRepository colonyRepository;
-    @Autowired
-    private AnimalRepository animalRepository;
-    @Autowired
-    private MethodSequenceRepository methodSequenceRepository;
+    public GetAccountController(AccountRepository accountRepository, CompetencyRepository competencyRepository, UserCompetencyBridgeRespository userCompetencyBridgeRespository) {
+        this.accountRepository = accountRepository;
+        this.competencyRepository = competencyRepository;
+        this.userCompetencyBridgeRespository = userCompetencyBridgeRespository;
+    }
 
     @GetMapping("/account")
     ResponseEntity<String> getAccount(@AuthenticationPrincipal User user,
@@ -57,49 +54,49 @@ public class GetAccountController {
             Optional<List<Account>> filterOptional;
 
             if (accountId != null) {
-                Account account = accountRepository.findAccountById(accountId);
+                Account account = accountRepository.findOne(accountId);
                 if (account != null) {
                     baseList.retainAll((Collection<?>) account);
                 }
             }
 
             if (username != null) {
-                filterOptional = accountRepository.findAccountsByUsernameLike(username);
+                filterOptional = accountRepository.findByUsernameLike(username);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (firstName != null) {
-                filterOptional = accountRepository.findAccountsByFirstNameLike(firstName);
+                filterOptional = accountRepository.findByFirstNameLike(firstName);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (lastName != null) {
-                filterOptional = accountRepository.findAccountsByLastNameLike(lastName);
+                filterOptional = accountRepository.findByLastNameLike(lastName);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (email != null) {
-                filterOptional = accountRepository.findAccountsByEmailLike(email);
+                filterOptional = accountRepository.findByEmailLike(email);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (phone != null) {
-                filterOptional = accountRepository.findAccountsByPhoneNumber(phone);
+                filterOptional = accountRepository.findByPhoneNumber(phone);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (privilege != null) {
-                filterOptional = accountRepository.findAccountsByPrivilege(privilege);
+                filterOptional = accountRepository.findByPrivilege(privilege);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (competencyIdList != null && competencyIdList.size() > 0) {
                 List<UserCompetencyBridge> userCompetencyBridgeList = new ArrayList<>();
                 for(Integer id : competencyIdList){
-                    Competency competency = competencyRepository.findCompetencyById(id);
+                    Competency competency = competencyRepository.findOne(id);
                     if(competency != null){
                         Optional<List<UserCompetencyBridge>> ucbListOptional =
-                                userCompetencyBridgeRespository.findUserCompetencyBridgesByCompetency(competency);
+                                userCompetencyBridgeRespository.findByCompetency(competency);
                         ucbListOptional.ifPresent(userCompetencyBridgeList::addAll);
                     }
                 }
@@ -107,7 +104,7 @@ public class GetAccountController {
                 List<Account> accountList = new ArrayList<>();
                 for(UserCompetencyBridge userCompetencyBridge : userCompetencyBridgeList){
                     Optional<List<Account>> accountListOptional =
-                            accountRepository.findAccountsByUserCompetencyBridgeSetContains(userCompetencyBridge);
+                            accountRepository.findByUserCompetencyBridgeSetContains(userCompetencyBridge);
                     accountListOptional.ifPresent(accountList::addAll);
                 }
 

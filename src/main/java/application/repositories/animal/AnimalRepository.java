@@ -10,26 +10,22 @@ import java.util.Optional;
 
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
-    Optional<List<Animal>> findAnimalsByIdGreaterThan(Integer id);
+    Optional<List<Animal>> findByGenotype(Genotype genotype);
 
-    Animal findAnimalById(Integer id);
+    Optional<Animal> findByPhenotypeBridgeSetContaining(PhenotypeBridge phenotypeBridge);
 
-    Optional<List<Animal>> findAnimalsByGenotype(Genotype genotype);
+    Optional<List<Animal>> findBySex(Integer sex);
 
-    Optional<Animal> findAnimalByPhenotypeBridgeSetContaining(PhenotypeBridge phenotypeBridge);
+    Optional<List<Animal>> findByDateOfBirthGreaterThan(Long dateOfBirth);
 
-    Optional<List<Animal>> findAnimalsBySex(Integer sex);
+    Optional<List<Animal>> findByDateOfDeathGreaterThan(Long dateOfDeath);
 
-    Optional<List<Animal>> findAnimalsByDateOfBirthGreaterThan(Long dateOfBirth);
+    Optional<List<Animal>> findByDateOfBirthLessThan(Long dateOfBirth);
 
-    Optional<List<Animal>> findAnimalsByDateOfDeathGreaterThan(Long dateOfDeath);
+    Optional<List<Animal>> findByDateOfDeathLessThan(Long dateOfDeath);
 
-    Optional<List<Animal>> findAnimalsByDateOfBirthLessThan(Long dateOfBirth);
+    Optional<List<Animal>> findByCauseOfDeath(Integer causeOfDeath);
 
-    Optional<List<Animal>> findAnimalsByDateOfDeathLessThan(Long dateOfDeath);
-
-    Optional<List<Animal>> findAnimalsByCauseOfDeath(Integer causeOfDeath);
-
-    Optional<List<Animal>> findAnimalsBySpecies(Integer species);
+    Optional<List<Animal>> findBySpecies(Integer species);
 
 }

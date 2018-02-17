@@ -1,6 +1,7 @@
 package application.repositories.schedule;
 
 import application.entities.project.Competency;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import application.entities.schedule.MethodSequenceItem;
 
@@ -9,11 +10,11 @@ import java.util.Optional;
 
 public interface MethodSequenceItemRepository extends JpaRepository<MethodSequenceItem, Integer> {
 
-    Optional<MethodSequenceItem> findMethodSequenceItemById(Integer id);
+    Optional<List<MethodSequenceItem>> findByMethodType(Integer methodType);
 
-    Optional<List<MethodSequenceItem>> findMethodSequenceItemsByMethodType(Integer methodType);
+    Optional<List<MethodSequenceItem>> findByCompetency(Competency competency);
 
-    Optional<List<MethodSequenceItem>> findMethodSequenceItemsByCompetency(Competency competency);
+    Optional<List<MethodSequenceItem>> findByLevel(Integer level);
 
-    Optional<List<MethodSequenceItem>> findMethodSequenceItemsByLevel(Integer level);
+    Optional<List<MethodSequenceItem>> findByCompetencyAndLevel(Competency competency, Integer level);
 }

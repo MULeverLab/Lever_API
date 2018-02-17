@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/project")
 public class PutProjectController {
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
-    @PostMapping("/project")
-    ResponseEntity<String> putProject (@AuthenticationPrincipal User user,
-                                       @RequestBody Project project){
-        projectRepository.save(project);
-        return new ResponseEntity<String>("Project is saved/updated", HttpStatus.OK);
+    @Autowired
+    public PutProjectController(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
+    @PostMapping("/project")
+    ResponseEntity putProject (@AuthenticationPrincipal User user,
+                               @RequestBody Project project){
+        projectRepository.save(project);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

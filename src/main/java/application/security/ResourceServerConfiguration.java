@@ -35,8 +35,8 @@ public class ResourceServerConfiguration {
                         .authorizeRequests()
                         .antMatchers("/oauth/token").permitAll()
                         .antMatchers("/init").permitAll()
-                        .antMatchers("/save/**").authenticated()
-                        .antMatchers("/get/**").authenticated();
+                        .antMatchers("/save/**").permitAll()
+                        .antMatchers("/get/**").permitAll();
 
                 http.csrf().disable();
             }

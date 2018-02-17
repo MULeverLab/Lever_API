@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/animal")
 public class PutBreedingEventController {
 
+    private final BreedingEventRepository breedingEventRepository;
 
-
-        @Autowired
-        BreedingEventRepository breedingEventRepository;
-
-        @PostMapping("/breedingEvent")
-        ResponseEntity<String> putBreedingEvent(@AuthenticationPrincipal User user,
-                                                @RequestBody BreedingEvent breedingEvent){
-            breedingEventRepository.save(breedingEvent);
-            return new ResponseEntity<String>("BreedingEvent is saved/updated", HttpStatus.OK);
-        }
+    @Autowired
+    public PutBreedingEventController(BreedingEventRepository breedingEventRepository) {
+        this.breedingEventRepository = breedingEventRepository;
     }
 
-
+    @PostMapping("/breedingEvent")
+    ResponseEntity putBreedingEvent(@AuthenticationPrincipal User user,
+                                    @RequestBody BreedingEvent breedingEvent){
+        breedingEventRepository.save(breedingEvent);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+}

@@ -5,5 +5,4 @@ import application.entities.project.Competency;
 
 public interface CompetencyRepository extends JpaRepository<Competency, Integer> {
 
-    Competency findCompetencyById(Integer id);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
 
@@ -24,23 +25,23 @@ import java.util.List;
 @RequestMapping("/get/animal")
 public class GetColonyController {
 
+    private final ColonyRepository colonyRepository;
+
     @Autowired
-    ColonyRepository colonyRepository;
+    public GetColonyController(ColonyRepository colonyRepository) {
+        this.colonyRepository = colonyRepository;
+    }
 
     ResponseEntity<String> getColony (@AuthenticationPrincipal User user,
                                       @RequestParam(value = "colonyId", required = false) Integer colonyId){
 
-        Optional<List<Colony>> baseOptional = colonyRepository.findColoniesByIdGreaterThan(-1);
-        if (baseOptional.isPresent() && baseOptional.get().size()>0) {
-            List<Colony> baseList = baseOptional.get();
-            List<Colony> filterList;
+        List<Colony> baseList = colonyRepository.findAll();
+        if (baseList.size()>0) {
 
             if (colonyId != null) {
-                Colony filterOptional = colonyRepository.findColonyById(colonyId);
-                if(filterOptional != null){
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
+                Colony colony = colonyRepository.findOne(colonyId);
+                if(colony != null){
+                    baseList.retainAll((Collection<?>) colony);
                 }
 
             }

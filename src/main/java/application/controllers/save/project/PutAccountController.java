@@ -4,11 +4,9 @@ import application.entities.project.Account;
 import application.repositories.project.AccountRepository;
 import application.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/project")
 public class PutAccountController {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    public PutAccountController(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+        this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 //    @PostMapping("/account")
 //    ResponseEntity<String> putAccount (@RequestBody Account account){
@@ -30,10 +31,10 @@ public class PutAccountController {
 //    }
 
     @PostMapping(path = "/account")
-    public ResponseEntity<?> putAccount(@AuthenticationPrincipal User user,
-                                        @RequestBody Account account){
-        if(accountRepository.findAccountByUsername(account.getUsername()).isPresent()){
-            return new ResponseEntity<Object>("Username aleady exists", HttpStatus.METHOD_NOT_ALLOWED);
+    public ResponseEntity putAccount(@AuthenticationPrincipal User user,
+                                     @RequestBody Account account){
+        if(accountRepository.findByUsername(account.getUsername()).isPresent()){
+            return new ResponseEntity<>("Username aleady exists", HttpStatus.METHOD_NOT_ALLOWED);
         }
 
         account.setPassword(passwordEncoder.encode(account.getPassword()));

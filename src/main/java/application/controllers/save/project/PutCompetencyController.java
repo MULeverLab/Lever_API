@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/get/project")
 public class PutCompetencyController {
 
+    private final CompetencyRepository competencyRepository;
 
     @Autowired
-    private CompetencyRepository competencyRepository;
+    public PutCompetencyController(CompetencyRepository competencyRepository) {
+        this.competencyRepository = competencyRepository;
+    }
 
     @PostMapping("/competency")
-    ResponseEntity<String> putCompetency (@AuthenticationPrincipal User user,
-                                          @RequestBody Competency competency){
+    ResponseEntity putCompetency (@AuthenticationPrincipal User user,
+                                 @RequestBody Competency competency){
         competencyRepository.save(competency);
-        return new ResponseEntity<String>("Competency is saved/updated", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

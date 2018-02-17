@@ -12,21 +12,19 @@ import java.util.Optional;
 
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-    Optional<Project> findProjectById(Integer id);
+    Optional<List<Project>> findByStartDateLessThan(Long startDate);
 
-    Optional<List<Project>> findProjectsByStartDateLessThan(Long startDate);
+    Optional<List<Project>> findByStartDateGreaterThan(Long startDate);
 
-    Optional<List<Project>> findProjectsByStartDateGreaterThan(Long startDate);
+    Optional<List<Project>> findByCompletionDateLessThan(Long completionDate);
 
-    Optional<List<Project>> findProjectsByCompletionDateLessThan(Long completionDate);
+    Optional<List<Project>> findByCompletionDateGreaterThan(Long completionDate);
 
-    Optional<List<Project>> findProjectsByCompletionDateGreaterThan(Long completionDate);
+    Optional<List<Project>> findByColonyListContains(Colony colony);
 
-    Optional<List<Project>> findProjectsByColonyListContains(Colony colony);
+    Optional<List<Project>> findByAnimalListContains(Animal animal);
 
-    Optional<List<Project>> findProjectsByAnimalListContains(Animal animal);
+    Optional<List<Project>> findByAccountListContains(Account account);
 
-    Optional<List<Project>> findProjectsByAccountListContains(Account account);
-
-    Optional<List<Project>> findProjectsByMethodSequencesContains(MethodSequence methodSequence);
+    Optional<List<Project>> findByMethodSequencesContains(MethodSequence methodSequence);
 }

@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -22,21 +21,24 @@ import java.util.List;
 @RequestMapping("/get/animal")
 public class GetPhenotypeController {
 
+    private final PhenotypeRepository phenotypeRepository;
+
     @Autowired
-    PhenotypeRepository phenotypeRepository;
+    public GetPhenotypeController(PhenotypeRepository phenotypeRepository) {
+        this.phenotypeRepository = phenotypeRepository;
+    }
 
     @GetMapping("/phenotype")
     ResponseEntity<String> getPhenotype (@AuthenticationPrincipal User user,
                                          @RequestParam(value = "phenotypeId", required = false) Integer phenotypeId) {
 
-        Optional<List<Phenotype>> baseOptional = phenotypeRepository.findPhenotypesByIdGreaterThan(-1);
-        if (baseOptional.isPresent() && baseOptional.get().size() > 0) {
-            List<Phenotype> baseList = baseOptional.get();
+        List<Phenotype> baseList = phenotypeRepository.findAll();
+        if (baseList.size() > 0) {
 
             if (phenotypeId != null) {
-                Phenotype filterOptional = phenotypeRepository.findPhenotypeById(phenotypeId);
-                if(filterOptional != null){
-                    baseList.retainAll((Collection<?>) filterOptional);
+                Phenotype phenotype = phenotypeRepository.findOne(phenotypeId);
+                if(phenotype != null){
+                    baseList.retainAll((Collection<?>) phenotype);
                 }
             }
 

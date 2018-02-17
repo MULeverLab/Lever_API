@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/animal")
 public class PutPhenotypeController {
 
+    private final PhenotypeRepository phenotypeRepository;
+
     @Autowired
-    PhenotypeRepository phenotypeRepository;
+    public PutPhenotypeController(PhenotypeRepository phenotypeRepository) {
+        this.phenotypeRepository = phenotypeRepository;
+    }
 
     @PostMapping("/phenotype")
-    ResponseEntity<String> putPhenotype (@AuthenticationPrincipal User user,
-                                         @RequestBody Phenotype phenotype){
+    ResponseEntity putPhenotype (@AuthenticationPrincipal User user,
+                                 @RequestBody Phenotype phenotype){
         phenotypeRepository.save(phenotype);
-        return new ResponseEntity<String>("Phenotype is saved/updated", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

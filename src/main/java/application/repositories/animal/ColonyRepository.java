@@ -8,7 +8,4 @@ import java.util.Optional;
 
 public interface ColonyRepository extends JpaRepository<Colony, Integer> {
 
-    Colony findColonyById(Integer id);
-
-    Optional<List<Colony>> findColoniesByIdGreaterThan(Integer id);
 }

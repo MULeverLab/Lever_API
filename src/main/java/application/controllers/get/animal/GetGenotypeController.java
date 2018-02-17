@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -21,22 +20,24 @@ import java.util.List;
 @RequestMapping("/get/animal")
 public class GetGenotypeController {
 
+    private final GenotypeRepository genotypeRepository;
+
     @Autowired
-    GenotypeRepository genotypeRepository;
+    public GetGenotypeController(GenotypeRepository genotypeRepository) {
+        this.genotypeRepository = genotypeRepository;
+    }
 
     @GetMapping("/genotype")
     ResponseEntity<String> getGenotype(@AuthenticationPrincipal User user,
                                        @RequestParam(value = "genotypeId", required = false) Integer genotypeId) {
 
-        Optional<List<Genotype>> baseOptional = genotypeRepository.findGenotypesByIdGreaterThan(-1);
-        if (baseOptional.isPresent() && baseOptional.get().size() > 0) {
-            List<Genotype> baseList = baseOptional.get();
-            List<Genotype> filterList;
+        List<Genotype> baseList = genotypeRepository.findAll();
+        if (baseList.size() > 0) {
 
             if (genotypeId != null) {
-                Genotype filterOptional = genotypeRepository.findGenotypeById(genotypeId);
-                if(filterOptional != null){
-                    baseList.retainAll((Collection<?>) filterOptional);
+                Genotype genotype = genotypeRepository.findOne(genotypeId);
+                if(genotype != null){
+                    baseList.retainAll((Collection<?>) genotype);
                 }
             }
 

@@ -8,10 +8,12 @@ import java.util.Optional;
 
 public interface MethodRepository extends JpaRepository<Method, Integer> {
 
-    Method findMethodById (Integer id);
-    Optional<List<Method>> findMethodsByDateGreaterThan (Long date);
-    Optional<List<Method>> findMethodsByDateLessThan (Long date);
-    Optional<List<Method>> findMethodsByMethodType (Integer methodType);
-    Method findMethodByMethodId (Integer methodId);
+    Optional<List<Method>> findByDateGreaterThan(Long date);
+
+    Optional<List<Method>> findByDateLessThan(Long date);
+
+    Optional<List<Method>> findByMethodType(Integer methodType);
+
+    Optional<List<Method>> findByMethodId(Integer methodId);
 
 }

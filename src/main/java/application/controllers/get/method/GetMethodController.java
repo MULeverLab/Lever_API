@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +22,12 @@ import java.util.Optional;
 @RequestMapping("/get/method")
 public class GetMethodController {
 
+    private final MethodRepository methodRepository;
+
     @Autowired
-    MethodRepository methodRepository;
+    public GetMethodController(MethodRepository methodRepository) {
+        this.methodRepository = methodRepository;
+    }
 
     @GetMapping("/method")
     ResponseEntity<String> getMethod (@AuthenticationPrincipal User user,
@@ -32,49 +37,36 @@ public class GetMethodController {
                                       @RequestParam(value ="methodType", required = false) Integer methodType,
                                       @RequestParam(value ="methodId", required = false) Integer methodId
                                       ){
-        List<Method> baseList = methodRepository.findAll();
 
+        List<Method> baseList = methodRepository.findAll();
         if(baseList.size()>0){
             List<Method> filterList;
 
             if(rowId != null){
-                Method filterOptional = methodRepository.findMethodById(rowId);
-                if(filterOptional != null){
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
-
+                Method method = methodRepository.findOne(rowId);
+                if(method != null){
+                    baseList.retainAll((Collection<?>) method);
                 }
             }
 
             if(dateBefore != null){
-                Optional<List<Method>> filterOptional = methodRepository.findMethodsByDateLessThan(dateBefore);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                Optional<List<Method>> filterOptional = methodRepository.findByDateLessThan(dateBefore);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(dateAfter != null){
-                Optional<List<Method>> filterOptional = methodRepository.findMethodsByDateGreaterThan(dateAfter);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                Optional<List<Method>> filterOptional = methodRepository.findByDateGreaterThan(dateAfter);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(methodId != null){
-                Method filterOptional = methodRepository.findMethodByMethodId(methodId);
-                if (filterOptional !=null) {
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Method>> filterOptional = methodRepository.findByMethodId(methodId);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(methodType != null){
-                Optional<List<Method>> filterOptional = methodRepository.findMethodsByMethodType(methodType);
-                if (filterOptional.isPresent() && filterOptional.get().size() > 0) {
-                    baseList.retainAll(filterOptional.get());
-                }
+                Optional<List<Method>> filterOptional = methodRepository.findByMethodType(methodType);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

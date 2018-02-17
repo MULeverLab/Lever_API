@@ -14,35 +14,25 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/get/animal")
 public class GetAnimalController {
 
-    @Autowired
-    AnimalRepository animalRepository;
+    private final AnimalRepository animalRepository;
+    private final GenotypeRepository genotypeRepository;
+    private final PhenotypeBridgeRepository phenotypeBridgeRepository;
 
     @Autowired
-    BreedingEventRepository breedingEventRepository;
-
-    @Autowired
-    ColonyRepository colonyRepository;
-
-    @Autowired
-    GenotypeRepository genotypeRepository;
-
-    @Autowired
-    MouseRepository mouseRepository;
-
-    @Autowired
-    PhenotypeRepository phenotypeRepository;
-
-    @Autowired
-    PhenotypeBridgeRepository phenotypeBridgeRepository;
+    public GetAnimalController(AnimalRepository animalRepository, GenotypeRepository genotypeRepository, PhenotypeBridgeRepository phenotypeBridgeRepository) {
+        this.animalRepository = animalRepository;
+        this.genotypeRepository = genotypeRepository;
+        this.phenotypeBridgeRepository = phenotypeBridgeRepository;
+    }
 
     @GetMapping("/animal")
     ResponseEntity<String> getAnimal(@AuthenticationPrincipal User user,
@@ -58,39 +48,30 @@ public class GetAnimalController {
                                      @RequestParam(value = "speciesId", required = false) Integer speciesId){
 
         List<Animal> baseList = animalRepository.findAll();
-        if (baseList.size()>0){
-            List<Animal> filterList;
+        if (baseList.size() > 0){
 
-            //This was changed. The animalRepository method was changed from findAnimalsById to findAnimalById and the
-            //return type was changed to Animal. As such I check to if the id is found, the return Animal object is not
-            //null and then add that animal to a List.
             if(animalId != null){
-                Animal filterOptional = animalRepository.findAnimalById(animalId);
-                if(filterOptional != null){
-                    filterList = new ArrayList<>();
-                    filterList.add(filterOptional);
-                    baseList.retainAll(filterList);
+                Animal animal = animalRepository.findOne(animalId);
+                if(animal != null){
+                    baseList.retainAll((Collection<?>) animal);
                 }
             }
 
             if(genotypeId != null){
-                Genotype genotypeOptional = genotypeRepository.findGenotypeById(genotypeId);
-                if (genotypeOptional != null) {
-                    Optional<List<Animal>> filterOptional = animalRepository.findAnimalsByGenotype(genotypeOptional);
-                    if (filterOptional.isPresent() && filterOptional.get().size()>0) {
-                        filterList = filterOptional.get();
-                        baseList.retainAll(filterList);
-                    }
+                Genotype genotype = genotypeRepository.findOne(genotypeId);
+                if (genotype != null) {
+                    Optional<List<Animal>> filterOptional = animalRepository.findByGenotype(genotype);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(phenotypeId != null){
-                Optional <List<PhenotypeBridge>> phenotypeOptional = phenotypeBridgeRepository.findPheontypeBridgeByPhenotype(phenotypeId);
-                if (phenotypeOptional.isPresent() && phenotypeOptional.get().size()>0) {
-                    filterList = new ArrayList<>();
+                Optional <List<PhenotypeBridge>> phenotypeOptional = phenotypeBridgeRepository.findByPhenotype(phenotypeId);
+                if (phenotypeOptional.isPresent()) {
+                    ArrayList<Animal> filterList = new ArrayList<>();
 
                     for(PhenotypeBridge phenotypeBridge : phenotypeOptional.get()){
-                        Optional<Animal> animalOptional = animalRepository.findAnimalByPhenotypeBridgeSetContaining(phenotypeBridge);
+                        Optional<Animal> animalOptional = animalRepository.findByPhenotypeBridgeSetContaining(phenotypeBridge);
                         if(animalOptional.isPresent()){
                             if(!filterList.contains(animalOptional.get())) {
                                 filterList.add(animalOptional.get());
@@ -103,60 +84,38 @@ public class GetAnimalController {
             }
 
             if(sex != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsBySex(sex);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findBySex(sex);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
-
             if(beforeDateOfBirth != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsByDateOfBirthLessThan(beforeDateOfBirth);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findByDateOfBirthLessThan(beforeDateOfBirth);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterDateOfBirth != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsByDateOfBirthGreaterThan(afterDateOfBirth);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findByDateOfBirthGreaterThan(afterDateOfBirth);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(beforeDateOfDeath != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsByDateOfDeathLessThan(beforeDateOfDeath);
-                if(filterOptional.isPresent() && filterOptional.get().size()>0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findByDateOfDeathLessThan(beforeDateOfDeath);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterDateOfDeath != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsByDateOfDeathGreaterThan(afterDateOfDeath);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findByDateOfDeathGreaterThan(afterDateOfDeath);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(causeOfDeath != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsByCauseOfDeath(causeOfDeath);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findByCauseOfDeath(causeOfDeath);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(speciesId != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findAnimalsBySpecies(speciesId);
-                if(filterOptional.isPresent() && filterOptional.get().size() > 0){
-                    filterList = filterOptional.get();
-                    baseList.retainAll(filterList);
-                }
+                Optional<List<Animal>> filterOptional = animalRepository.findBySpecies(speciesId);
+                filterOptional.ifPresent(baseList::retainAll);
             }
 
             ObjectMapper objectMapper = new ObjectMapper();

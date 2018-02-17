@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/method")
 public class PutMethodController {
 
-    @Autowired
-    MethodRepository methodRepository;
+    private final MethodRepository methodRepository;
 
-    @PostMapping("/method")
-    ResponseEntity<String> putMethod (@AuthenticationPrincipal User user,
-                                      @RequestBody Method method){
-        methodRepository.save(method);
-        return new ResponseEntity<String>("Method is saved/updated", HttpStatus.OK);
+    @Autowired
+    public PutMethodController(MethodRepository methodRepository) {
+        this.methodRepository = methodRepository;
     }
 
+    @PostMapping("/method")
+    ResponseEntity putMethod (@AuthenticationPrincipal User user,
+                              @RequestBody Method method){
+        methodRepository.save(method);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

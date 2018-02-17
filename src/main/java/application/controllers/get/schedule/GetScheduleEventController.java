@@ -26,14 +26,18 @@ import java.util.Optional;
 @RequestMapping("/get/schedule")
 public class GetScheduleEventController {
 
+    private final ScheduleEventRepository scheduleEventRepository;
+    private final ProjectRepository projectRepository;
+    private final AnimalRepository animalRepository;
+    private final AccountRepository accountRepository;
+
     @Autowired
-    private ScheduleEventRepository scheduleEventRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
-    @Autowired
-    private AnimalRepository animalRepository;
-    @Autowired
-    private AccountRepository accountRepository;
+    public GetScheduleEventController(ScheduleEventRepository scheduleEventRepository, ProjectRepository projectRepository, AnimalRepository animalRepository, AccountRepository accountRepository) {
+        this.scheduleEventRepository = scheduleEventRepository;
+        this.projectRepository = projectRepository;
+        this.animalRepository = animalRepository;
+        this.accountRepository = accountRepository;
+    }
 
     @GetMapping("/event")
     ResponseEntity<String> getScheduleEvent(@AuthenticationPrincipal User user,
@@ -50,71 +54,82 @@ public class GetScheduleEventController {
                                             @RequestParam(value = "beforeCompletionDate", required = false) Long beforeCompletionDate,
                                             @RequestParam(value = "afterCompletionDate", required = false) Long afterCompletionDate){
 
-        List<ScheduleEvent> baseList = (List<ScheduleEvent>) scheduleEventRepository.findAll();
+        List<ScheduleEvent> baseList = scheduleEventRepository.findAll();
         if (baseList.size() > 0) {
             Optional<List<ScheduleEvent>> filterOptional;
 
             if (eventId != null) {
-                Optional<ScheduleEvent> optional = scheduleEventRepository.findScheduleEventById(eventId);
-                optional.ifPresent(scheduleEvent -> baseList.retainAll((Collection<?>) scheduleEvent));
+                ScheduleEvent scheduleEvent = scheduleEventRepository.findOne(eventId);
+
+                if(scheduleEvent != null){
+                    baseList.retainAll((Collection<?>) scheduleEvent);
+                }
             }
 
             if (projectId != null) {
-                Optional<Project> optional = projectRepository.findProjectById(projectId);
-                optional.ifPresent(project -> baseList.retainAll((Collection<?>) project));
+                Project project = projectRepository.findOne(projectId);
+
+                if(project != null){
+                    filterOptional = scheduleEventRepository.findByProject(project);
+                    filterOptional.ifPresent(baseList::retainAll);
+                }
             }
 
             if (projectId != null) {
-                Animal animal = animalRepository.findAnimalById(animalId);
+                Animal animal = animalRepository.findOne(animalId);
+
                 if (animal != null) {
-                    baseList.retainAll((Collection<?>) animal);
+                    filterOptional = scheduleEventRepository.findByAnimal(animal);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if (accountId != null) {
-                Account account = accountRepository.findAccountById(accountId);
+                Account account = accountRepository.findOne(accountId);
+
                 if (account != null) {
-                    baseList.retainAll((Collection<?>) account);
+                    filterOptional = scheduleEventRepository.findByAccount(account);
+                    filterOptional.ifPresent(baseList::retainAll);
                 }
             }
 
             if(beforeAddedDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByAddedDateLessThan(beforeAddedDate);
+                filterOptional = scheduleEventRepository.findByAddedDateLessThan(beforeAddedDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterAddedDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByAddedDateGreaterThan(afterAddedDate);
+                filterOptional = scheduleEventRepository.findByAddedDateGreaterThan(afterAddedDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(beforeDueDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByDueDateLessThan(beforeDueDate);
+                filterOptional = scheduleEventRepository.findByDueDateLessThan(beforeDueDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterDueDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByDueDateGreaterThan(afterDueDate);
+                filterOptional = scheduleEventRepository.findByDueDateGreaterThan(afterDueDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(beforeClaimDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByClaimDateLessThan(beforeClaimDate);
+                filterOptional = scheduleEventRepository.findByClaimDateLessThan(beforeClaimDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterClaimDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByClaimDateGreaterThan(afterClaimDate);
+                filterOptional = scheduleEventRepository.findByClaimDateGreaterThan(afterClaimDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(beforeCompletionDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByCompletionDateLessThan(beforeCompletionDate);
+                filterOptional = scheduleEventRepository.findByCompletionDateLessThan(beforeCompletionDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if(afterCompletionDate != null){
-                filterOptional = scheduleEventRepository.findScheduleEventsByCompletionDateGreaterThan(afterCompletionDate);
+                filterOptional = scheduleEventRepository.findByCompletionDateGreaterThan(afterCompletionDate);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 

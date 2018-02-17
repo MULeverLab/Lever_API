@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface PhenotypeBridgeRepository extends JpaRepository<PhenotypeBridge, Integer> {
 
-    Optional <List<PhenotypeBridge>> findPheontypeBridgeByPhenotype(Integer phenotype);
+    Optional <List<PhenotypeBridge>> findByPhenotype(Integer phenotype);
 
 }

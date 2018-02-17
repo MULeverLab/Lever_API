@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/animal")
 public class PutMouseController {
 
-    @Autowired
-    MouseRepository mouseRepository;
+    private final MouseRepository mouseRepository;
 
-    @PostMapping("/mouse")
-    ResponseEntity<String> putMouse (@AuthenticationPrincipal User user,
-                                     @RequestBody Mouse mouse){
-        mouseRepository.save(mouse);
-        return new ResponseEntity<String>("Mouse is saved/updated", HttpStatus.OK);
+    @Autowired
+    public PutMouseController(MouseRepository mouseRepository) {
+        this.mouseRepository = mouseRepository;
     }
 
+    @PostMapping("/mouse")
+    ResponseEntity putMouse (@AuthenticationPrincipal User user,
+                             @RequestBody Mouse mouse){
+        mouseRepository.save(mouse);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

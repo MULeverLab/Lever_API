@@ -2,13 +2,8 @@ package application.controllers.get.project;
 
 import application.entities.project.Account;
 import application.entities.project.Competency;
-import application.repositories.animal.AnimalRepository;
-import application.repositories.animal.ColonyRepository;
 import application.repositories.project.AccountRepository;
 import application.repositories.project.CompetencyRepository;
-import application.repositories.project.ProjectRepository;
-import application.repositories.project.UserCompetencyBridgeRespository;
-import application.repositories.schedule.MethodSequenceRepository;
 import application.security.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,21 +22,23 @@ import java.util.Optional;
 @RequestMapping("/get/project")
 public class GetCompetencyController {
 
+    private final CompetencyRepository competencyRepository;
+
     @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private CompetencyRepository competencyRepository;
+    public GetCompetencyController(CompetencyRepository competencyRepository) {
+        this.competencyRepository = competencyRepository;
+    }
 
     @GetMapping("/competency")
     ResponseEntity<String> getAccount(@AuthenticationPrincipal User user,
                                       @RequestParam(value = "competencyId", required = false) Integer competencyId) {
 
-        List<Competency> baseList = (List<Competency>) competencyRepository.findAll();
+        List<Competency> baseList = competencyRepository.findAll();
         if (baseList.size() > 0) {
-            Optional<List<Account>> filterOptional;
 
             if (competencyId != null) {
-                Competency competency = competencyRepository.findCompetencyById(competencyId);
+                Competency competency = competencyRepository.findOne(competencyId);
+
                 if (competency != null) {
                     baseList.retainAll((Collection<?>) competency);
                 }

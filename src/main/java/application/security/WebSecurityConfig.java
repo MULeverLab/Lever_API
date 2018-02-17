@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +33,7 @@ public class WebSecurityConfig extends GlobalAuthenticationConfigurerAdapter {
     @Bean
     UserDetailsService userDetailsService() {
         return (username) -> accountRepository
-                .findAccountByUsername(username)
+                .findByUsername(username)
                 .map(a -> new User(a.getUsername(), a.getPassword(), true, true, true, true,
                         AuthorityUtils.createAuthorityList("USER", "write"),a))
                 .orElseThrow(

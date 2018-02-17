@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -25,8 +24,12 @@ import java.util.List;
 @RequestMapping("/get/animal")
 public class GetMouseController {
 
+    private final MouseRepository mouseRepository;
+
     @Autowired
-    MouseRepository mouseRepository;
+    public GetMouseController(MouseRepository mouseRepository) {
+        this.mouseRepository = mouseRepository;
+    }
 
     @RequestMapping("/mouse")
     ResponseEntity<String> getMouse(@AuthenticationPrincipal User user,
@@ -38,34 +41,33 @@ public class GetMouseController {
                                     )
     {
 
-        Optional<List<Mouse>> baseOptional = mouseRepository.findMICEByIdGreaterThan(-1);
-        if (baseOptional.isPresent() && baseOptional.get().size()>0) {
-            List<Mouse> baseList = baseOptional.get();
+        List<Mouse> baseList = mouseRepository.findAll();
+        if (baseList.size()>0) {
 
             if (mouseId != null){
-                Mouse filterOptional = mouseRepository.findMouseById(mouseId);
+                Mouse filterOptional = mouseRepository.findOne(mouseId);
                 if(filterOptional != null){
                     baseList.retainAll((Collection<?>) filterOptional);
                 }
             }
 
             if (cageId != null){
-                Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByCageId(cageId);
+                Optional<List<Mouse>> filterOptional = mouseRepository.findByCageId(cageId);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (coatColor != null){
-                Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByCoatColor(coatColor);
+                Optional<List<Mouse>> filterOptional = mouseRepository.findByCoatColor(coatColor);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (leftEarPunches != null){
-                Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByLeftEarPunches(leftEarPunches);
+                Optional<List<Mouse>> filterOptional = mouseRepository.findByLeftEarPunches(leftEarPunches);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
             if (rightEarPunches != null){
-                Optional<List<Mouse>> filterOptional = mouseRepository.findMICEByRightEarPunches(rightEarPunches);
+                Optional<List<Mouse>> filterOptional = mouseRepository.findByRightEarPunches(rightEarPunches);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 

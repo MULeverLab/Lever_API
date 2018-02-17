@@ -9,7 +9,5 @@ import java.util.Optional;
 
 public interface UserCompetencyBridgeRespository extends JpaRepository<UserCompetencyBridge, Integer> {
 
-    UserCompetencyBridge findUserCompetencyBridgeById(Integer id);
-
-    Optional<List<UserCompetencyBridge>> findUserCompetencyBridgesByCompetency(Competency competency);
+    Optional<List<UserCompetencyBridge>> findByCompetency(Competency competency);
 }

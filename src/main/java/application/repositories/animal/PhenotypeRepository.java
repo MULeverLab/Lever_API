@@ -8,10 +8,4 @@ import java.util.Optional;
 
 public interface PhenotypeRepository extends JpaRepository<Phenotype, Integer> {
 
-
-
-    Phenotype findPhenotypeById(Integer id);
-
-    Optional<List<Phenotype>> findPhenotypesByIdGreaterThan(Integer id);
-
 }

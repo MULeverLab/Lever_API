@@ -9,22 +9,16 @@ import java.util.List;
 
 public interface BreedingEventRepository extends JpaRepository<BreedingEvent, Integer> {
 
-    BreedingEvent findBreedingEventById(Integer id);
+    Optional<List<BreedingEvent>> findByDadBreeder(Animal dadBreeder);
 
-    Optional<List<BreedingEvent>> findBreedingEventByIdGreaterThan(Integer id);
+    Optional<List<BreedingEvent>> findByMomBreeder(Animal momBreeder);
 
-    Optional<List<BreedingEvent>> findBreedingEventsByDadBreeder(Animal dadBreeder);
+    Optional<List<BreedingEvent>> findByPairFormingDateGreaterThan(Long pairFormingDate);
 
-    Optional<List<BreedingEvent>> findBreedingEventsByMomBreeder(Animal momBreeder);
+    Optional<List<BreedingEvent>> findByPairFormingDateLessThan(Long pairFormingDate);
 
-    Optional<List<BreedingEvent>> findBreedingEventsByPairFormingDateGreaterThan(Long pairFormingDate);
+    Optional<List<BreedingEvent>> findByWeanedDayGreaterThan(Long weanedDate);
 
-    Optional<List<BreedingEvent>> findBreedingEventsByPairFormingDateLessThan(Long pairFormingDate);
-
-    Optional<List<BreedingEvent>> findBreedingEventsByWeanedDayGreaterThan(Long weanedDate);
-
-    Optional<List<BreedingEvent>> findBreedingEventsByWeanedDayLessThan(Long weanedDate);
-
-
+    Optional<List<BreedingEvent>> findByWeanedDayLessThan(Long weanedDate);
 
 }

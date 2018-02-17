@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/animal")
 public class PutGenotypeController {
 
-        @Autowired
-        GenotypeRepository genotypeRepository;
+    private final GenotypeRepository genotypeRepository;
 
-        @PostMapping("/genotype")
-        ResponseEntity<String> putGenotype (@AuthenticationPrincipal User user,
-                                            @RequestBody Genotype genotype){
-            genotypeRepository.save(genotype);
-            return new ResponseEntity<String>("Genotype is saved/updated", HttpStatus.OK);
-        }
+    @Autowired
+    public PutGenotypeController(GenotypeRepository genotypeRepository) {
+        this.genotypeRepository = genotypeRepository;
     }
+
+    @PostMapping("/genotype")
+    ResponseEntity putGenotype (@AuthenticationPrincipal User user,
+                                @RequestBody Genotype genotype){
+        genotypeRepository.save(genotype);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+}
 
 

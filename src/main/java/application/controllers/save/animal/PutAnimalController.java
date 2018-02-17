@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/save/animal")
 public class PutAnimalController {
 
+    private final AnimalRepository animalRepository;
+
     @Autowired
-    AnimalRepository animalRepository;
+    public PutAnimalController(AnimalRepository animalRepository) {
+        this.animalRepository = animalRepository;
+    }
 
     @PostMapping("/animal")
-    ResponseEntity<String> putAnimal(@AuthenticationPrincipal User user,
-                                     @RequestBody Animal animal){
+    ResponseEntity putAnimal(@AuthenticationPrincipal User user,
+                             @RequestBody Animal animal){
         animalRepository.save(animal);
-        return new ResponseEntity<String>("Animal is saved/updated", HttpStatus.OK);
-        }
+        return new ResponseEntity(HttpStatus.OK);
     }
+}
 
 

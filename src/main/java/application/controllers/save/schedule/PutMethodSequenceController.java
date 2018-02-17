@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/get/schedule")
 public class PutMethodSequenceController {
 
-    @Autowired
-    private MethodSequenceRepository methodSequenceRepository;
+    private final MethodSequenceRepository methodSequenceRepository;
 
-    @PostMapping("/methodSequence")
-    ResponseEntity<String> putMethodSequence (@AuthenticationPrincipal User user,
-                                              @RequestBody MethodSequence methodSequence){
-        methodSequenceRepository.save(methodSequence);
-        return new ResponseEntity<String>("MethodSequence is saved/updated", HttpStatus.OK);
+    @Autowired
+    public PutMethodSequenceController(MethodSequenceRepository methodSequenceRepository) {
+        this.methodSequenceRepository = methodSequenceRepository;
     }
 
+    @PostMapping("/methodSequence")
+    ResponseEntity putMethodSequence (@AuthenticationPrincipal User user,
+                                      @RequestBody MethodSequence methodSequence){
+        methodSequenceRepository.save(methodSequence);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

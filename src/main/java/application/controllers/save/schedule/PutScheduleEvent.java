@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/get/schedule")
 public class PutScheduleEvent {
 
+    private final ScheduleEventRepository scheduleEventRepository;
+
     @Autowired
-    private ScheduleEventRepository scheduleEventRepository;
+    public PutScheduleEvent(ScheduleEventRepository scheduleEventRepository) {
+        this.scheduleEventRepository = scheduleEventRepository;
+    }
 
     @PostMapping("/scheduleEvent")
-    ResponseEntity<String> putScheduleEvent (@AuthenticationPrincipal User user,
-                                             @RequestBody ScheduleEvent scheduleEvent){
+    ResponseEntity putScheduleEvent (@AuthenticationPrincipal User user,
+                                     @RequestBody ScheduleEvent scheduleEvent){
         scheduleEventRepository.save(scheduleEvent);
-        return new ResponseEntity<String>("ScheduleEvent is saved/updated", HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

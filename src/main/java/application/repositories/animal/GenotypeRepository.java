@@ -9,9 +9,5 @@ import java.util.Optional;
 public interface GenotypeRepository extends JpaRepository<Genotype, Integer> {
 
 
-    Genotype findGenotypeById(Integer id);
-
-    Optional<List<Genotype>> findGenotypesByIdGreaterThan(Integer id);
-
 
 }

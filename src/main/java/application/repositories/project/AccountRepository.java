@@ -9,21 +9,19 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
-    Account findAccountById(Integer id);
+    Optional<Account> findByUsername(String username);
 
-    Optional<Account> findAccountByUsername(String username);
+    Optional<List<Account>> findByUsernameLike(String username);
 
-    Optional<List<Account>> findAccountsByUsernameLike(String username);
+    Optional<List<Account>> findByFirstNameLike(String firstName);
 
-    Optional<List<Account>> findAccountsByFirstNameLike(String firstName);
+    Optional<List<Account>> findByLastNameLike(String lastname);
 
-    Optional<List<Account>> findAccountsByLastNameLike(String lastname);
+    Optional<List<Account>> findByEmailLike(String email);
 
-    Optional<List<Account>> findAccountsByEmailLike(String email);
+    Optional<List<Account>> findByPhoneNumber(String phone);
 
-    Optional<List<Account>> findAccountsByPhoneNumber(String phone);
+    Optional<List<Account>> findByPrivilege(String privilege);
 
-    Optional<List<Account>> findAccountsByPrivilege(String privilege);
-
-    Optional<List<Account>> findAccountsByUserCompetencyBridgeSetContains(UserCompetencyBridge userCompetencyBridge);
+    Optional<List<Account>> findByUserCompetencyBridgeSetContains(UserCompetencyBridge userCompetencyBridge);
 }

@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MouseRepository extends JpaRepository<Mouse, Integer> {
-    Mouse findMouseById(Integer id);
 
-    Optional<List<Mouse>> findMICEByIdGreaterThan(Integer id);
+    Optional<List<Mouse>> findByCageId(Integer cageId);
 
-    Optional<List<Mouse>> findMICEByCageId(Integer cageId);
+    Optional<List<Mouse>> findByCoatColor(Integer coatColor);
 
-    Optional<List<Mouse>> findMICEByCoatColor(Integer coatColor);
+    Optional<List<Mouse>> findByLeftEarPunches(Integer leftEarPunches);
 
-    Optional<List<Mouse>> findMICEByLeftEarPunches(Integer leftEarPunches);
-
-    Optional<List<Mouse>> findMICEByRightEarPunches(Integer rightEarPunches);
+    Optional<List<Mouse>> findByRightEarPunches(Integer rightEarPunches);
 }

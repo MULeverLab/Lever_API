@@ -9,7 +9,5 @@ import java.util.Optional;
 
 public interface MethodSequenceRepository extends JpaRepository<MethodSequence, Integer> {
 
-    Optional<MethodSequence> findMethodSequenceById(Integer id);
-
-    Optional<List<MethodSequence>> findMethodSequencesByMethodSequenceItemListContains(MethodSequenceItem methodSequenceItem);
+    Optional<List<MethodSequence>> findByMethodSequenceItemListContains(MethodSequenceItem methodSequenceItem);
 }
