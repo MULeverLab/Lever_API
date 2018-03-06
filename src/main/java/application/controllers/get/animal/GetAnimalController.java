@@ -35,7 +35,7 @@ public class GetAnimalController {
     }
 
     @GetMapping("/animal")
-    ResponseEntity<String> getAnimal(@AuthenticationPrincipal User user,
+    List<Animal> getAnimal(@AuthenticationPrincipal User user,
                                      @RequestParam(value = "animalId", required = false) Integer animalId,
                                      @RequestParam(value = "genotypeId", required = false) Integer genotypeId,
                                      @RequestParam(value = "phenotypeId", required = false) Integer phenotypeId,
@@ -118,16 +118,10 @@ public class GetAnimalController {
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO ANIMALS IN BASE List", HttpStatus.NO_CONTENT);
+        return new ArrayList<>();
     }
 
 

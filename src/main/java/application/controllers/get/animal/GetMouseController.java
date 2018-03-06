@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -32,7 +33,7 @@ public class GetMouseController {
     }
 
     @RequestMapping("/mouse")
-    ResponseEntity<String> getMouse(@AuthenticationPrincipal User user,
+    List<Mouse> getMouse(@AuthenticationPrincipal User user,
                                     @RequestParam(value = "mouseId", required = false) Integer mouseId,
                                     @RequestParam(value = "cageId", required = false) Integer cageId,
                                     @RequestParam(value = "coatColor", required = false) Integer coatColor,
@@ -71,16 +72,9 @@ public class GetMouseController {
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO MICE IN BASE List", HttpStatus.NO_CONTENT);
-
+        return new ArrayList<>();
     }
 }

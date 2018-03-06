@@ -2,10 +2,13 @@ package application;
 
 import application.entities.animal.*;
 import application.entities.project.Account;
+import application.entities.project.Project;
+import application.entities.schedule.ScheduleEvent;
 import application.repositories.animal.*;
 import application.repositories.project.AccountRepository;
 import application.repositories.project.CompetencyRepository;
 import application.repositories.project.ProjectRepository;
+import application.repositories.schedule.ScheduleEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 @RestController
@@ -41,8 +46,10 @@ public class DataInitializer {
 
     private final CompetencyRepository competencyRepository;
 
+    private final ScheduleEventRepository scheduleEventRepository;
+
     @Autowired
-    public DataInitializer(PasswordEncoder passwordEncoder, AnimalRepository animalRepository, BreedingEventRepository breedingEventRepository, ColonyRepository colonyRepository, GenotypeRepository genotypeRepository, PhenotypeRepository phenotypeRepository, MouseRepository mouseRepository, ProjectRepository projectRepository, AccountRepository accountRepository, CompetencyRepository competencyRepository) {
+    public DataInitializer(PasswordEncoder passwordEncoder, AnimalRepository animalRepository, BreedingEventRepository breedingEventRepository, ColonyRepository colonyRepository, GenotypeRepository genotypeRepository, PhenotypeRepository phenotypeRepository, MouseRepository mouseRepository, ProjectRepository projectRepository, AccountRepository accountRepository, CompetencyRepository competencyRepository, ScheduleEventRepository scheduleEventRepository) {
         this.passwordEncoder = passwordEncoder;
         this.animalRepository = animalRepository;
         this.breedingEventRepository = breedingEventRepository;
@@ -53,6 +60,7 @@ public class DataInitializer {
         this.projectRepository = projectRepository;
         this.accountRepository = accountRepository;
         this.competencyRepository = competencyRepository;
+        this.scheduleEventRepository = scheduleEventRepository;
     }
 
     @GetMapping("/init")
@@ -108,7 +116,33 @@ public class DataInitializer {
         colonyRepository.save(colony2);
 
         // initialize with test user
-        accountRepository.save(new Account("lever", passwordEncoder.encode("lab"), "Teresa", "Lever", null, null, null, null));
+        Account account = new Account("lever", passwordEncoder.encode("lab"), "Teresa", "Lever",
+                null, null, null, null);
+        accountRepository.save(account);
+
+
+        //
+        // Create project data
+        //
+        Project project = new Project("Lever API", "NA", 0l, null,
+                Arrays.asList(colony1, colony2), Arrays.asList(animal1, animal2, animal3, animal4), accountRepository.findAll(), null);
+        projectRepository.save(project);
+
+
+
+        scheduleEventRepository.save(new ScheduleEvent(null, project, animal1, null,
+                0l, 0l, 0l, 0l,
+                "NA", null, 0, false));
+        scheduleEventRepository.save(new ScheduleEvent(null, project, animal1, account,
+                0l, 0l, 0l, 0l,
+                "NA", null, 0, false));
+        scheduleEventRepository.save(new ScheduleEvent(null, project, animal1, account,
+                0l, 0l, 0l, 0l,
+                "NA", null, 0, true));
+        scheduleEventRepository.save(new ScheduleEvent(null, project, animal1, null,
+                0l, 0l, 0l, 0l,
+                "NA", null, 0, false));
+
 
         return new ResponseEntity<String>("initialized", HttpStatus.OK);
     }

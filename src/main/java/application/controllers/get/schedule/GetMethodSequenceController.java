@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class GetMethodSequenceController {
     }
 
     @GetMapping("/sequence")
-    ResponseEntity<String> getMethodSequence(@AuthenticationPrincipal User user,
+    List<MethodSequence> getMethodSequence(@AuthenticationPrincipal User user,
                                              @RequestParam(value = "sequenceId", required = false) Integer sequenceId,
                                              @RequestParam(value = "itemId", required = false) Integer itemId){
 
@@ -57,15 +58,9 @@ public class GetMethodSequenceController {
                 }
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO PROJECTS IN BASE List", HttpStatus.NO_CONTENT);
+        return new ArrayList<>();
     }
 }

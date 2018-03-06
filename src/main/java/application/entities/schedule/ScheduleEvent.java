@@ -36,7 +36,9 @@ public class ScheduleEvent {
     protected ScheduleEvent() {
     }
 
-    public ScheduleEvent(Method method, Project project, Animal animal, Account account, Long addedDate, Long dueDate, Long claimDate, Long completionDate, String description, Competency competency, Integer level, boolean complete) {
+    public ScheduleEvent(Method method, Project project, Animal animal, Account account,
+                         Long addedDate, Long dueDate, Long claimDate, Long completionDate,
+                         String description, Competency competency, Integer level, boolean complete) {
         this.method = method;
         this.project = project;
         this.animal = animal;

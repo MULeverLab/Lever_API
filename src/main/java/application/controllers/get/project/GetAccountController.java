@@ -39,7 +39,7 @@ public class GetAccountController {
     }
 
     @GetMapping("/account")
-    ResponseEntity<String> getAccount(@AuthenticationPrincipal User user,
+    List<Account> getAccount(@AuthenticationPrincipal User user,
                                       @RequestParam(value = "accountId", required = false) Integer accountId,
                                       @RequestParam(value = "username", required = false) String username,
                                       @RequestParam(value = "firstName", required = false) String firstName,
@@ -112,15 +112,9 @@ public class GetAccountController {
                 baseList.retainAll(accountList);
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO ACCOUNTS IN BASE List", HttpStatus.NO_CONTENT);
+        return new ArrayList<>();
     }
 }

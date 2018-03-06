@@ -30,7 +30,7 @@ public class GetMethodController {
     }
 
     @GetMapping("/method")
-    ResponseEntity<String> getMethod (@AuthenticationPrincipal User user,
+    List<Method> getMethod (@AuthenticationPrincipal User user,
                                       @RequestParam(value = "rowId", required = false) Integer rowId,
                                       @RequestParam(value = "dateBefore", required = false) Long dateBefore,
                                       @RequestParam(value = "dateAfter", required = false) Long dateAfter,
@@ -69,17 +69,10 @@ public class GetMethodController {
                 filterOptional.ifPresent(baseList::retainAll);
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-
-        return new ResponseEntity<>("NO METHODS IN BASE List", HttpStatus.NO_CONTENT);
+        return new ArrayList<>();
     }
 
 }

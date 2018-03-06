@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -44,7 +45,7 @@ public class GetProjectController {
     }
 
     @GetMapping("/project")
-    ResponseEntity<String> getProject(@AuthenticationPrincipal User user,
+    List<Project> getProject(@AuthenticationPrincipal User user,
                                       @RequestParam(value = "projectId", required = false) Integer projectId,
                                       @RequestParam(value = "beforeStartDate", required = false) Long beforeStartDate,
                                       @RequestParam(value = "afterStartDate", required = false) Long afterStartDate,
@@ -119,15 +120,9 @@ public class GetProjectController {
                 }
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO PROJECTS IN BASE List", HttpStatus.NO_CONTENT);
+        return new ArrayList<>();
     }
 }
