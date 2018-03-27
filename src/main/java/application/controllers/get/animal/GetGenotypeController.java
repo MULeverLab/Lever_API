@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
@@ -28,7 +29,7 @@ public class GetGenotypeController {
     }
 
     @GetMapping("/genotype")
-    ResponseEntity<String> getGenotype(@AuthenticationPrincipal User user,
+    List<Genotype> getGenotype(@AuthenticationPrincipal User user,
                                        @RequestParam(value = "genotypeId", required = false) Integer genotypeId) {
 
         List<Genotype> baseList = genotypeRepository.findAll();
@@ -41,18 +42,10 @@ public class GetGenotypeController {
                 }
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO GENOTYPES IN BASE List", HttpStatus.NO_CONTENT);
-
-
+        return new ArrayList<>();
     }
 
 }

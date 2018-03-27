@@ -28,7 +28,7 @@ public class GetVfssMethodController {
     }
 
     @GetMapping("/vfssmethod")
-    ResponseEntity<String> getVfssMethod (@AuthenticationPrincipal User user,
+    List<VfssMethod> getVfssMethod (@AuthenticationPrincipal User user,
                                           @RequestParam (value ="vfssId", required = false) Integer vfssId){
 
         List<VfssMethod> baseList = vfssMethodRepository.findAll();
@@ -41,17 +41,10 @@ public class GetVfssMethodController {
                 }
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO VFSS METHODS IN BASE List", HttpStatus.NO_CONTENT);
-
+        return new ArrayList<>();
     }
 
 }

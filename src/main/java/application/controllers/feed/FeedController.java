@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +29,13 @@ public class FeedController {
     private ScheduleEventRepository scheduleEventRepository;
 
     @GetMapping
-    ResponseEntity<String> getFeed(@AuthenticationPrincipal User user,
-                                   @RequestParam(value = "username") String username,
-                                   @RequestParam(value = "password") String password){
+    List<List<ScheduleEvent>> getFeed(@AuthenticationPrincipal User user){
 
-        Account account = validateAccount(username, password);
+
+        Account account = user.account;
 
         if(account == null){
-            return new ResponseEntity<>("Failed to authenticate", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ArrayList<>();
         }
 
         // build list of claimed events
@@ -60,13 +60,7 @@ public class FeedController {
             optional.ifPresent(unclaimedScheduleEvents::retainAll);
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(claimedScheduleEvents), HttpStatus.OK);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return Arrays.asList(claimedScheduleEvents, unclaimedScheduleEvents);
     }
 
     private Account validateAccount(String username, String password){

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class GetCompetencyController {
     }
 
     @GetMapping("/competency")
-    ResponseEntity<String> getAccount(@AuthenticationPrincipal User user,
+    List<Competency> getAccount(@AuthenticationPrincipal User user,
                                       @RequestParam(value = "competencyId", required = false) Integer competencyId) {
 
         List<Competency> baseList = competencyRepository.findAll();
@@ -44,15 +45,9 @@ public class GetCompetencyController {
                 }
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO ACCOUNTS IN BASE LIST", HttpStatus.NO_CONTENT);
+        return new ArrayList<>();
     }
 }

@@ -32,7 +32,7 @@ public class GetColonyController {
         this.colonyRepository = colonyRepository;
     }
 
-    ResponseEntity<String> getColony (@AuthenticationPrincipal User user,
+    List<Colony> getColony (@AuthenticationPrincipal User user,
                                       @RequestParam(value = "colonyId", required = false) Integer colonyId){
 
         List<Colony> baseList = colonyRepository.findAll();
@@ -46,17 +46,9 @@ public class GetColonyController {
 
             }
 
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return new ResponseEntity<>(objectMapper.writeValueAsString(baseList), HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Failed to convert result to JSON", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return baseList;
         }
 
-        return new ResponseEntity<>("NO ANIMALS IN BASE List", HttpStatus.NO_CONTENT);
-
+        return new ArrayList<>();
     }
 }
