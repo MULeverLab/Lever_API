@@ -117,7 +117,7 @@ public class DataInitializer {
 
         // initialize with test user
         Account account = new Account("lever", passwordEncoder.encode("lab"), "Teresa", "Lever",
-                null, null, null, null);
+                null, null, null, null, null);
         accountRepository.save(account);
 
 

@@ -23,10 +23,12 @@ public class Account {
     @OneToMany(cascade = {CascadeType.ALL})
     private Set<UserCompetencyBridge> userCompetencyBridgeSet;
 
+    private String pictureName;
+
     protected Account() {
     }
 
-    public Account(String username, String password, String firstName, String lastName, String email, String phoneNumber, String privilege, Set<UserCompetencyBridge> userCompetencyBridgeSet) {
+    public Account(String username, String password, String firstName, String lastName, String email, String phoneNumber, String privilege, Set<UserCompetencyBridge> userCompetencyBridgeSet, String pictureName) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -35,6 +37,7 @@ public class Account {
         this.phoneNumber = phoneNumber;
         this.privilege = privilege;
         this.userCompetencyBridgeSet = userCompetencyBridgeSet;
+        this.pictureName = pictureName;
     }
 
     public Integer getId() {
@@ -53,6 +56,7 @@ public class Account {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -107,5 +111,13 @@ public class Account {
 
     public void setUserCompetencyBridgeSet(Set<UserCompetencyBridge> userCompetencyBridgeSet) {
         this.userCompetencyBridgeSet = userCompetencyBridgeSet;
+    }
+
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public void setPictureName(String pictureName) {
+        this.pictureName = pictureName;
     }
 }

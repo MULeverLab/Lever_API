@@ -1,15 +1,11 @@
-package application.controllers.feed;
+package application.controllers.dashboard;
 
 import application.entities.project.Account;
 import application.entities.schedule.ScheduleEvent;
 import application.repositories.project.AccountRepository;
 import application.repositories.schedule.ScheduleEventRepository;
 import application.security.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
