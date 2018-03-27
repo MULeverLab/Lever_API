@@ -41,19 +41,17 @@ public class PutAccountController {
             return new ResponseEntity<>("Username aleady exists", HttpStatus.METHOD_NOT_ALLOWED);
         }
 
-        String fileName = null;
         if(picture != null){
-            fileName = UUID.randomUUID().toString().substring(0, 9) + picture.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString().substring(0, 9) + picture.getOriginalFilename();
 
             try {
                 Files.write(Paths.get(picturePath + fileName), picture.getBytes());
-                return new ResponseEntity(HttpStatus.OK);
+                account.setPictureName(fileName);
             } catch (IOException e) {
                 return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-        account.setPictureName(fileName);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountRepository.save(account);
         return new ResponseEntity(HttpStatus.OK);
