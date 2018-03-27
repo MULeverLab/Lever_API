@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +34,7 @@ public class ResourceServerConfiguration {
 
             @Override
             public void configure(HttpSecurity http) throws Exception {
-                http.antMatcher("/**")
+                http.cors().and().antMatcher("/**")
                         .authorizeRequests()
                         .antMatchers("/oauth/token").permitAll()
                         .antMatchers("/init").permitAll()
@@ -44,4 +47,18 @@ public class ResourceServerConfiguration {
         resource.setOrder(0);
         return resource;
     }
+
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*")
+                        .allowedHeaders("*");
+            }
+        };
+    }
+
 }
+
