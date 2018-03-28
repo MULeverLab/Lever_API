@@ -26,6 +26,4 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
     Optional<List<Animal>> findByCauseOfDeath(Integer causeOfDeath);
 
-    Optional<List<Animal>> findBySpecies(Integer species);
-
 }

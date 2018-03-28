@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -36,7 +37,7 @@ public class PutAccountController {
 
     @PostMapping(path = "/account")
     public ResponseEntity putAccount(@AuthenticationPrincipal User user,
-                                     @RequestBody Account account, @RequestParam(required = false) MultipartFile picture){
+                                             @RequestBody Account account, @RequestParam(required = false) MultipartFile picture){
         if(accountRepository.findByUsername(account.getUsername()).isPresent()){
             return new ResponseEntity<>("Username aleady exists", HttpStatus.METHOD_NOT_ALLOWED);
         }
@@ -48,12 +49,33 @@ public class PutAccountController {
                 Files.write(Paths.get(picturePath + fileName), picture.getBytes());
                 account.setPictureName(fileName);
             } catch (IOException e) {
-                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountRepository.save(account);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/account/{username}/picture")
+    public ResponseEntity<String> putAccountPicture(@AuthenticationPrincipal User user, @PathVariable String username,
+                                                    @RequestParam MultipartFile picture){
+
+        Optional<Account> account = accountRepository.findByUsername(username);
+        if(account.isPresent()) {
+            String fileName = UUID.randomUUID().toString().substring(0, 9) + picture.getOriginalFilename();
+
+            try {
+                Files.write(Paths.get(picturePath + fileName), picture.getBytes());
+                account.get().setPictureName(fileName);
+
+                return new ResponseEntity<String>(HttpStatus.OK);
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else{
+            return new ResponseEntity<>("Username does not exist", HttpStatus.BAD_REQUEST);
+        }
     }
 }

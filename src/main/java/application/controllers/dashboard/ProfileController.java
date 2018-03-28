@@ -31,7 +31,6 @@ public class ProfileController {
 
     @GetMapping("/me")
     Account getMe(@AuthenticationPrincipal User user){
-
         return accountRepository.findOne(user.account.getId());
     }
 

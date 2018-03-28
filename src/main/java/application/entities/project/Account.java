@@ -20,7 +20,7 @@ public class Account {
     private String email;
     private String phoneNumber;
     private String privilege;
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private Set<UserCompetencyBridge> userCompetencyBridgeSet;
 
     private String pictureName;

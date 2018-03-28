@@ -1,6 +1,6 @@
 package application.controllers.save.method;
 
-import application.entities.method.VfssMethod;
+import application.entities.method.VfssMethods.VfssMethod;
 import application.repositories.method.VfssMethodRepository;
 import application.security.User;
 import org.springframework.beans.factory.annotation.Autowired;

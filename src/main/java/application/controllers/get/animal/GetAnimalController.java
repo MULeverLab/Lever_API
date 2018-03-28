@@ -44,8 +44,7 @@ public class GetAnimalController {
                                      @RequestParam(value = "beforeDateOfDeath", required = false) Long beforeDateOfDeath,
                                      @RequestParam(value = "afterDateOfBirth", required = false) Long afterDateOfBirth,
                                      @RequestParam(value = "afterDateOfDeath", required = false) Long afterDateOfDeath,
-                                     @RequestParam(value = "causeOfDeath", required = false) Integer causeOfDeath,
-                                     @RequestParam(value = "speciesId", required = false) Integer speciesId){
+                                     @RequestParam(value = "causeOfDeath", required = false) Integer causeOfDeath){
 
         List<Animal> baseList = animalRepository.findAll();
         if (baseList.size() > 0){
@@ -110,11 +109,6 @@ public class GetAnimalController {
 
             if(causeOfDeath != null){
                 Optional<List<Animal>> filterOptional = animalRepository.findByCauseOfDeath(causeOfDeath);
-                filterOptional.ifPresent(baseList::retainAll);
-            }
-
-            if(speciesId != null){
-                Optional<List<Animal>> filterOptional = animalRepository.findBySpecies(speciesId);
                 filterOptional.ifPresent(baseList::retainAll);
             }
 

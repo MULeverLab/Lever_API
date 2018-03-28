@@ -1,4 +1,7 @@
-package application.entities.method;
+package application.entities.method.VfssMethods;
+
+import application.entities.method.VfssMethods.VfssPositionOneMethod;
+import application.entities.method.VfssMethods.VfssPositionTwoMethod;
 
 import javax.persistence.*;
 

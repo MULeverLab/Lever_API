@@ -18,14 +18,15 @@ public class Animal {
     private Long dateOfBirth;
     private Long dateOfDeath;
     private Integer causeOfDeath;
-    private Integer species;
-    private Integer speciesId;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Mouse mouse;
 
     protected Animal() {
 
     }
 
-    public Animal(Genotype genotype, Set<PhenotypeBridge> phenotypeBridgeSet, String description, Integer sex, Long dateOfBirth, Long dateOfDeath, Integer causeOfDeath, Integer species, Integer speciesId) {
+    public Animal(Genotype genotype, Set<PhenotypeBridge> phenotypeBridgeSet, String description, Integer sex, Long dateOfBirth, Long dateOfDeath, Integer causeOfDeath, Mouse mouse) {
         this.genotype = genotype;
         this.phenotypeBridgeSet = phenotypeBridgeSet;
         this.description = description;
@@ -33,8 +34,7 @@ public class Animal {
         this.dateOfBirth = dateOfBirth;
         this.dateOfDeath = dateOfDeath;
         this.causeOfDeath = causeOfDeath;
-        this.species = species;
-        this.speciesId = speciesId;
+        this.mouse = mouse;
     }
 
     public Integer getId() {
@@ -101,19 +101,11 @@ public class Animal {
         this.causeOfDeath = causeOfDeath;
     }
 
-    public Integer getSpecies() {
-        return species;
+    public Mouse getMouse() {
+        return mouse;
     }
 
-    public void setSpecies(Integer species) {
-        this.species = species;
-    }
-
-    public Integer getSpeciesId() {
-        return speciesId;
-    }
-
-    public void setSpeciesId(Integer speciesId) {
-        this.speciesId = speciesId;
+    public void setMouse(Mouse mouse) {
+        this.mouse = mouse;
     }
 }

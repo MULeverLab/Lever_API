@@ -3,10 +3,12 @@ package application.repositories.schedule;
 import application.entities.animal.Animal;
 import application.entities.method.Method;
 import application.entities.project.Account;
+import application.entities.project.Competency;
 import application.entities.project.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import application.entities.schedule.ScheduleEvent;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,20 @@ public interface ScheduleEventRepository extends JpaRepository<ScheduleEvent, In
     Optional<List<ScheduleEvent>> findByAnimal(Animal animal);
 
     Optional<List<ScheduleEvent>> findByAccount(Account account);
+
+    Optional<List<ScheduleEvent>> findByAccountNotNullAndCompleteFalseOrderByDueDate();
+
+    Optional<List<ScheduleEvent>> findByAccountAndCompleteFalseOrderByDueDate(Account account);
+
+    Optional<List<ScheduleEvent>> findByAccountNullAndCompleteFalseOrderByDueDate();
+
+    Optional<List<ScheduleEvent>> findByAccountNullAndCompetencyInAndCompleteFalseOrderByDueDate(Collection<Competency> competency);
+
+    Optional<List<ScheduleEvent>> findByAccountNullAndCompetencyNullAndCompleteFalse();
+
+    Optional<List<ScheduleEvent>> findByCompleteTrueOrderByCompletionDate();
+
+    Optional<List<ScheduleEvent>> findByAccountAndCompleteTrueOrderByCompletionDate(Account account);
 
     Optional<List<ScheduleEvent>> findByAddedDateLessThan(Long addedDate);
 
@@ -36,5 +52,5 @@ public interface ScheduleEventRepository extends JpaRepository<ScheduleEvent, In
 
     Optional<List<ScheduleEvent>> findByCompletionDateGreaterThan(Long completionDate);
 
-    Optional<List<ScheduleEvent>> findByCompleteEquals(boolean complete);
+    Optional<List<ScheduleEvent>> findByComplete(boolean complete);
 }

@@ -1,9 +1,8 @@
 package application.entities.method;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import application.entities.method.VfssMethods.VfssMethod;
+
+import javax.persistence.*;
 
 @Entity
 public class Method {
@@ -17,17 +16,19 @@ public class Method {
     private Integer methodId;
     private Long date;
 
-
+    @OneToOne(cascade = {CascadeType.ALL})
+    private VfssMethod vfssMethod;
 
     public Method() {
     }
 
-    public Method(String name, String description, Integer methodType, Integer methodId, Long date) {
+    public Method(String name, String description, Integer methodType, Integer methodId, Long date, VfssMethod vfssMethod) {
         this.name = name;
         this.description = description;
         this.methodType = methodType;
         this.methodId = methodId;
         this.date = date;
+        this.vfssMethod = vfssMethod;
     }
 
     public Integer getId() {
@@ -76,5 +77,13 @@ public class Method {
 
     public void setDate(Long date) {
         this.date = date;
+    }
+
+    public VfssMethod getVfssMethod() {
+        return vfssMethod;
+    }
+
+    public void setVfssMethod(VfssMethod vfssMethod) {
+        this.vfssMethod = vfssMethod;
     }
 }

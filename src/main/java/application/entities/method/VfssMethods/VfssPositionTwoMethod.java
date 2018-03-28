@@ -1,4 +1,4 @@
-package application.entities.method;
+package application.entities.method.VfssMethods;
 
 import javax.persistence.*;
 
